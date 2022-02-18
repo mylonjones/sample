@@ -10,12 +10,17 @@ html, body, #root, .App {
 .dashPartition {
   width: 95%;
   margin: auto;
+  border-top: 1px solid black;
+}
+
+.navBar {
+  width: 95%;
+  margin: auto;
 }
 
 /** Home Page Style */
-.title-container {
+.titleContainer {
   background-color: inherit;
-  border-top: 1px solid black;
   padding: 80px 0;
 
 }
@@ -84,7 +89,7 @@ html, body, #root, .App {
 
 .split {
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 1fr 1fr;
   grid-template-areas: "left right";
 }
 
@@ -106,6 +111,47 @@ html, body, #root, .App {
   font-size: 30px;
 }
 /** End Home Page Style */
+
+/** Diet Page Style */
+.dietContainer {
+  column-gap: 10px;
+  padding: 10px 0;
+}
+
+.calorieCounter {
+  grid-area: left;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 20px auto;
+  grid-template-areas:
+    "total total"
+    "meal cal";
+  border: 1px solid black;
+  padding: 10px;
+  height: 400px;
+}
+
+.total {
+  grid-area: total;
+  border-bottom: 1px solid black;
+}
+
+.meals {
+  grid-area: meal;
+}
+
+.amounts {
+  grid-area: cal;
+  border-left: 1px solid black;
+}
+
+.recipes {
+  grid-area: right;
+  border: 1px solid black;
+  padding: 10px;
+}
+
+/* End Diet Page Style */
 
 nav {
   background-color: inherit;

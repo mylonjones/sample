@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <div className='home'>
       <div className='dashPartition'>
-        <div className='title-container'>
+        <div className='titleContainer'>
           <div className='title'>This Is The Title</div>
           <div className='subTitle'>{lorem.generateWords(10)}</div>
         </div>

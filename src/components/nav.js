@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function Nav() {
   return(
-    <nav className='dashPartition'>
+    <nav className='navBar'>
       <img
         className='logo'
         src='photos/logo.png'
@@ -12,10 +12,11 @@ export default function Nav() {
         width='60'
       />
       <div>
-        <Link className='navLink' to='/'>Home</Link>
-        <Link className='navLink' to='about'>About</Link>
-        <Link className='navLink' to='contact'>Contact</Link>
         <Link className='navLink' to='more'>More</Link>
+        <Link className='navLink' to='consultations'>Consultations</Link>
+        <Link className='navLink' to='exercise'>Exercise</Link>
+        <Link className='navLink' to='diet'>Diet</Link>
+        <Link className='navLink' to='/'>Home</Link>
       </div>
     </nav>
   )
