@@ -1,8 +1,16 @@
 import { ADD_CALORIES } from './calorieTypes'
 
-const initialState = {
-  calories: [{name: 'beef', cal: 350}, {name: 'chicken', cal: 200}]
+let initialState = {
+  calories: []
 }
+
+let stored = localStorage.getItem('meals')
+if(stored) {
+  initialState = {
+    calories: JSON.parse(stored)
+  }
+}
+
 
 const calorieReducer = (state = initialState, action) => {
   switch(action.type) {

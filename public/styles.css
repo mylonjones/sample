@@ -122,10 +122,11 @@ html, body, #root, .App {
   grid-area: left;
   display: grid;
   grid-template-columns: 50% 50%;
-  grid-template-rows: 20px auto;
+  grid-template-rows: 20px auto 100px;
   grid-template-areas:
     "total total"
-    "meal cal";
+    "meal cal"
+    "form form";
   border: 1px solid black;
   padding: 10px;
   height: 400px;
@@ -143,6 +144,18 @@ html, body, #root, .App {
 .amounts {
   grid-area: cal;
   border-left: 1px solid black;
+}
+
+.mealForm {
+  grid-area: form;
+}
+
+.inputLabel {
+}
+
+input {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .recipes {
