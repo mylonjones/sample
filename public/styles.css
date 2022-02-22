@@ -121,12 +121,11 @@ html, body, #root, .App {
 .calorieCounter {
   grid-area: left;
   display: grid;
-  grid-template-columns: 50% 50%;
   grid-template-rows: 20px auto 100px;
   grid-template-areas:
-    "total total"
-    "meal cal"
-    "form form";
+    "total"
+    "meals"
+    "form";
   border: 1px solid black;
   padding: 10px;
   height: 400px;
@@ -136,21 +135,37 @@ html, body, #root, .App {
   grid-area: total;
   border-bottom: 1px solid black;
 }
-
 .meals {
-  grid-area: meal;
+  grid-area: meals;
+  /* display: grid;
+  grid-template-rows: 20px 1fr;
+  grid-template-areas:
+    "mealList" "filler"; */
 }
 
-.amounts {
-  grid-area: cal;
+.meal {
+  /* grid-area: mealList; */
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-areas:
+    "mealName amount edit";
+}
+
+.mealName {
+  grid-area: mealName
+}
+
+.amount {
+  grid-area: amount;
   border-left: 1px solid black;
+}
+
+.editMealButton {
+  grid-area: edit;
 }
 
 .mealForm {
   grid-area: form;
-}
-
-.inputLabel {
 }
 
 input {
@@ -162,6 +177,41 @@ input {
   grid-area: right;
   border: 1px solid black;
   padding: 10px;
+}
+
+.recipeCard {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-template-areas: "image info";
+  margin: 5px;
+  border: 1px solid black;
+}
+
+.recipeImage {
+  grid-area: image;
+  width: 80px;
+}
+
+.recipeInfo {
+  grid-area: info;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "name name"
+    "calories button";
+}
+
+.recipeName {
+  grid-area: name;
+}
+
+.recipeCalories {
+  grid-area: calories;
+}
+
+.addRecipeCaloriesButton {
+  grid-area: button;
 }
 
 /* End Diet Page Style */

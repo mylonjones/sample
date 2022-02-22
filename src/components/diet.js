@@ -1,19 +1,25 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addCalories, addRecipes } from '../redux'
+import { addCalories, addRecipes, editCalories } from '../redux'
 
 class Diet extends React.Component {
   constructor(props) {
     super (props)
-    this.handleSubmit = this.handleSubmit.bind(this)
+    this.state = {
+      edit: null,
+      name: '',
+      cal: ''
+    }
+    this.handleEditClick = this.handleEditClick.bind(this)
+    this.handleEditSubmit = this.handleEditSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
   componentDidMount() {
     require('../recipeLoader.js')
   }
 
-
-  handleSubmit (e) {
+  handleCalorieSubmit (e) {
     let newMeal = {
       name: e.target[0].value,
       cal: parseInt(e.target[1].value)
@@ -25,9 +31,56 @@ class Diet extends React.Component {
     e.preventDefault();
   }
 
+  handleEditSubmit (e) {
+    e.preventDefault();
+
+    if(e.target[0].value.length === 0 || e.target[1].value.length === 0) {
+      this.setState({
+        edit: null
+      })
+      return
+    }
+    let newMeal = {
+      name: e.target[0].value,
+      cal: parseInt(e.target[1].value)
+    }
+
+    let meals = this.props.calories
+    meals.splice(e.target.getAttribute('index'), 1, newMeal)
+
+
+    this.props.editCalories(newMeal, e.target.getAttribute('index'))
+
+    localStorage.setItem('meals', JSON.stringify(meals))
+
+    this.setState({
+      edit: null
+    })
+  }
+
+  handleChange (e, key) {
+    this.setState({
+      [key]: e.target.value
+    })
+  }
+
+  handleEditClick (index) {
+    this.setState({
+      edit: index
+    })
+  }
+
+  handleAddCalories (meal) {
+    let newMeal = {
+      name: meal.name,
+      cal: meal.calories
+    }
+    this.props.addCalories(newMeal)
+    localStorage.setItem('meals', JSON.stringify(this.props.calories.concat([newMeal])))
+  }
+
   render() {
-    const total = this.props.calories.reduce((prev, current) => prev + current.cal, 0);
-    console.log(this.props.recipes)
+    const total = this.props.calories.slice(1).reduce((prev, current) => prev + current.cal, 0);
 
     return (
       <div className='dietContainer split dashPartition' >
@@ -37,25 +90,57 @@ class Diet extends React.Component {
             {total}
           </div>
           <div className='meals' >
-            name
             {this.props.calories.map((obj, index)=>{
-            return (
-              <div key={index}>
-                {obj.name}
-              </div>
-            )
-          })}</div>
-          <div className='amounts' >
-            amounts
-            {this.props.calories.map((obj, index)=>{
-            return (
-              <div key={index}>
-                {obj.cal}
-              </div>
-            )
+              obj.index = index
+              if(index === this.state.edit) {
+                return (
+                  <form
+                    className='meal'
+                    key={index}
+                    onSubmit={this.handleEditSubmit}
+                    index={index}
+                    >
+                    <input
+                      type='text'
+                      onChange={(e)=>{this.handleChange(e, 'name')}}
+                      value={this.name}
+                      placeholder={obj.name}
+                      className='mealName' />
+                    <input
+                      type='text'
+                      onChange={(e)=>{this.handleChange(e, 'cal')}}
+                      value={this.cal}
+                      placeholder={obj.cal}
+                      className='amount' />
+                    <input
+                      type='submit'
+                      className='editMealButton'
+                      value='change' />
+                  </form>
+                )
+              } else {
+                return (
+                  <div
+                    className='meal'
+                    key={index}
+                    index={index}
+                    >
+                    <div className='mealName' >
+                      {obj.name}
+                    </div>
+                    <div className='amount' >
+                      {obj.cal}
+                    </div>
+                    <button
+                      onClick={()=>{this.handleEditClick(index)}}
+                      className='editMealButton'
+                      > edit </button>
+                  </div>
+                )
+              }
           })}</div>
           <div className='mealForm' >
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleCalorieSubmit}>
               <label>
                 meal
                 <input type='text' autoComplete="off" name='meal' />
@@ -68,7 +153,26 @@ class Diet extends React.Component {
             </form>
           </div>
         </div>
-        <div className='recipes' ></div>
+        <div className='recipes' >
+          {this.props.recipes.map((recipe, index) => {
+            return (<div className='recipeCard' key={index}>
+              <img
+                className='recipeImage'
+                src={recipe.image}
+                alt={recipe.image}
+              />
+              <div className='recipeInfo' >
+                <div className='recipeName' >
+                  {recipe.name}
+                </div>
+                <div className='recipeCalories' >
+                  {recipe.calories}
+                </div>
+                <button onClick={() => {this.handleAddCalories(recipe)}} className='addRecipeCaloriesButton' >add calories</button>
+              </div>
+            </div>)
+          })}
+        </div>
       </div>
     )
   }
@@ -86,6 +190,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     addCalories: (value) => dispatch(addCalories(value)),
+    editCalories: (item, index) => dispatch(editCalories(item, index)),
     addRecipes: (value) => dispatch(addRecipes(value))
   }
 }

@@ -1,1 +1,2 @@
 export const ADD_CALORIES = 'ADD_CALORIES'
+export const EDIT_CALORIES = 'EDIT_CALORIES'

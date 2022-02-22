@@ -1,7 +1,7 @@
-import { ADD_CALORIES } from './calorieTypes'
+import { ADD_CALORIES, EDIT_CALORIES } from './calorieTypes'
 
 let initialState = {
-  calories: []
+  calories: [{name: 'name', cal: 'cal'}]
 }
 
 let stored = localStorage.getItem('meals')
@@ -17,6 +17,12 @@ const calorieReducer = (state = initialState, action) => {
     case ADD_CALORIES: return {
       ...state,
       calories: state.calories.concat([action.item])
+    }
+    case EDIT_CALORIES: {
+      state.calories.splice(action.index, 1, action.item)
+      return {
+        ...state
+      }
     }
 
     default: return state
