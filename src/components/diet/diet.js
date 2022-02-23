@@ -1,25 +1,22 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addCalories, addRecipes, editCalories } from '../redux'
+import { addCalories, addRecipes, editCalories } from '../../redux'
 
 class Diet extends React.Component {
   constructor(props) {
     super (props)
-    this.state = {
-      edit: null,
-      name: '',
-      cal: ''
-    }
-    this.handleEditClick = this.handleEditClick.bind(this)
+    this.state = { edit: null, name: '', cal: '' }
     this.handleEditSubmit = this.handleEditSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.handleCalorieSubmit = this.handleCalorieSubmit.bind(this)
   }
 
   componentDidMount() {
-    require('../recipeLoader.js')
+    require('../../recipeLoader.js')
   }
 
   handleCalorieSubmit (e) {
+    e.preventDefault();
     let newMeal = {
       name: e.target[0].value,
       cal: parseInt(e.target[1].value)
@@ -28,7 +25,6 @@ class Diet extends React.Component {
     localStorage.setItem('meals', JSON.stringify(this.props.calories.concat([newMeal])))
     e.target[0].value = ''
     e.target[1].value = ''
-    e.preventDefault();
   }
 
   handleEditSubmit (e) {
@@ -80,7 +76,7 @@ class Diet extends React.Component {
   }
 
   render() {
-    const total = this.props.calories.slice(1).reduce((prev, current) => prev + current.cal, 0);
+    const total = this.props.calories.reduce((prev, current) => prev + current.cal, 0);
 
     return (
       <div className='dietContainer split dashPartition' >
@@ -90,6 +86,10 @@ class Diet extends React.Component {
             {total}
           </div>
           <div className='meals' >
+            <div className='meal' >
+              <div className='mealName' > name </div>
+              <div className='amount' > calories </div>
+            </div>
             {this.props.calories.map((obj, index)=>{
               obj.index = index
               if(index === this.state.edit) {
@@ -182,7 +182,7 @@ class Diet extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    calories: state.calorieReducer.calories,
+    calories: state.caloriesReducer.calories,
     recipes: state.recipesReducer.recipes
   }
 }

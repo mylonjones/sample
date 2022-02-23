@@ -3,7 +3,7 @@ import caloriesReducer from './calories/caloriesReducer'
 import recipesReducer from './recipes/recipesReducer'
 
 const rootReducer = combineReducers({
-  calorieReducer: caloriesReducer,
+  caloriesReducer: caloriesReducer,
   recipesReducer: recipesReducer
 })
 

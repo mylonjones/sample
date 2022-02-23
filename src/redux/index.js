@@ -1,2 +1,2 @@
-export { addCalories, editCalories } from './calories/calorieActions'
+export { addCalories, editCalories } from './calories/caloriesActions'
 export { addRecipes } from './recipes/recipesActions'
