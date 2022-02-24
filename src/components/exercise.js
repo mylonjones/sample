@@ -8,10 +8,12 @@ class Exercise extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      videos: []
+      videos: [],
+      displayPosition: 0
     }
 
     this.moveRight = this.moveRight.bind(this)
+    this.moveLeft = this.moveLeft.bind(this)
   }
 
   componentDidMount() {
@@ -38,53 +40,50 @@ class Exercise extends React.Component {
   }
 
   moveRight() {
-    // const display = document.getElementsByClassName('videoDisplay')[0]
+    const videoContainers = document.getElementsByClassName('videoContainer')
 
-    // display.style.transform = 'translateX(0px)'
-    // setTimeout(()=>{
-    //   let videos = this.state.videos
-    //   let last = videos.pop()
-    //   this.setState({
-    //     videos: [last].concat(videos)
-    //   },()=>{
-    //     const display = document.getElementsByClassName('videoDisplay')[0]
-    //     display.style.transition = ''
-    //     display.style.transform = 'translateX(-290px)'
-    //   })
-
-    // }, 1000)
+    if(this.state.displayPosition >= this.state.videos.length - 3) {
+      for(let display of videoContainers) {
+        display.style.transform = ''
+      }
+      this.setState({
+        displayPosition: 0
+      })
+    } else {
+      for(let display of videoContainers) {
+        display.style.transform += 'translateX(-290px)'
+      }
+      this.setState({
+        displayPosition: this.state.displayPosition + 1
+      })
+    }
   }
 
   moveLeft() {
-    const display = document.getElementsByClassName('videoDisplay')[0]
-    display.style.transform = 'translateX(-580px)'
-    setTimeout(()=>{
-      console.log(this)
-    }, 1000)
+    const videoContainers = document.getElementsByClassName('videoContainer')
+    if(this.state.displayPosition <= 0) {
+      for(let display of videoContainers) {
+        display.style.transform = 'translateX(' + ((this.state.videos.length - 3) * (-290)) + 'px)'
+      }
+      this.setState({
+        displayPosition: this.state.videos.length - 3
+      })
+    } else {
+      for(let display of videoContainers) {
+        display.style.transform += 'translateX(290px)'
+      }
+      this.setState({
+        displayPosition: this.state.displayPosition - 1
+      })
+    }
   }
 
 
   render() {
-    return (<div>
+    return (<div className='videoDisplayContainer' >
       <div className='videoDisplay'>
         {this.state.videos.map((video, index)=>{
-          let positionClass = 'right'
-          switch (index) {
-            case 0:
-              positionClass = 'left'
-              break;
-            case 1:
-            case 2:
-            case 3:
-              positionClass = 'middle'
-              break;
-            default:
-              break;
-          }
-
-          return(<div
-                  key={index}
-                  className={`videoContainer ${positionClass}`} >
+          return(<div key={index} className='videoContainer' >
             <img
               className='videoSnippet'
               src={video.thumbnails.default.url}

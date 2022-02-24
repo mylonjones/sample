@@ -218,11 +218,16 @@ input {
 
 /* Exercise Page */
 
+.videoDisplayContainer {
+  margin: auto;
+}
+
 .videoDisplay {
   display: flex;
-  overflow: visible;
-  transform: translate(-290px, 0px);
+  overflow: hidden;
   transition: transform 1s;
+  width: 870px;
+  margin: auto;
 
 }
 
@@ -232,6 +237,7 @@ input {
 
 .videoContainer {
   margin: 20px;
+  transition: transform 1s;
 }
 
 .videoSnippet {
