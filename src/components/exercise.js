@@ -3,13 +3,17 @@ import React from 'react'
 import videoData from '../videodata'
 // const key = process.env.REACT_APP_API_YOUTUBE
 
+// import ReactPlayer from 'react-player'
+// <ReactPlayer controls url='http://www.youtube.com/embed/6w7XxuH6iL8' ></ReactPlayer>
+
 
 class Exercise extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       videos: [],
-      displayPosition: 0
+      displayPosition: 0,
+      currentVideo: <div className='videoPlaceHolder'/>
     }
 
     this.moveRight = this.moveRight.bind(this)
@@ -78,12 +82,18 @@ class Exercise extends React.Component {
     }
   }
 
+  handleVideoClick(id) {
+    this.setState({
+      currentVideo: <iframe className='video' title='exercise' width='640' height='360' src={`//www.youtube.com/embed/${id}`} frameborder='0'></iframe>
+    })
+  }
+
 
   render() {
-    return (<div className='videoDisplayContainer' >
+    return (<div className='exerciseContainer dashPartition' >
       <div className='videoDisplay'>
         {this.state.videos.map((video, index)=>{
-          return(<div key={index} className='videoContainer' >
+          return(<div key={index} className='videoContainer' onClick={()=>{this.handleVideoClick(video.id)}} >
             <img
               className='videoSnippet'
               src={video.thumbnails.default.url}
@@ -94,6 +104,9 @@ class Exercise extends React.Component {
       </div>
       <button onClick={this.moveLeft}>left</button>
       <button onClick={this.moveRight}>right</button>
+      <br/>
+      {this.state.currentVideo}
+
     </div>)
   }
 }
