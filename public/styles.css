@@ -214,7 +214,31 @@ input {
   grid-area: button;
 }
 
-/* End Diet Page Style */
+/* End Diet Page */
+
+/* Exercise Page */
+
+.videoDisplay {
+  display: flex;
+  overflow: visible;
+  transform: translate(-290px, 0px);
+  transition: transform 1s;
+
+}
+
+/* .videoDisplay:hover {
+  transform: translate(0px, 0px);
+} */
+
+.videoContainer {
+  margin: 20px;
+}
+
+.videoSnippet {
+  width: 250px;
+}
+
+/* End Exercise Page */
 
 nav {
   background-color: inherit;
