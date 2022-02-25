@@ -44,7 +44,7 @@ class Exercise extends React.Component {
   }
 
   moveRight() {
-    const videoContainers = document.getElementsByClassName('videoContainer')
+    const videoContainers = document.getElementsByClassName('snippetContainer')
 
     if(this.state.displayPosition >= this.state.videos.length - 3) {
       for(let display of videoContainers) {
@@ -64,7 +64,7 @@ class Exercise extends React.Component {
   }
 
   moveLeft() {
-    const videoContainers = document.getElementsByClassName('videoContainer')
+    const videoContainers = document.getElementsByClassName('snippetContainer')
     if(this.state.displayPosition <= 0) {
       for(let display of videoContainers) {
         display.style.transform = 'translateX(' + ((this.state.videos.length - 3) * (-290)) + 'px)'
@@ -84,28 +84,38 @@ class Exercise extends React.Component {
 
   handleVideoClick(id) {
     this.setState({
-      currentVideo: <iframe className='video' title='exercise' width='640' height='360' src={`//www.youtube.com/embed/${id}`} frameborder='0'></iframe>
+      currentVideo: <iframe
+        className='video'
+        title='exercise'
+        src={`//www.youtube.com/embed/${id}`}
+        ></iframe>
     })
   }
 
 
   render() {
     return (<div className='exerciseContainer dashPartition' >
-      <div className='videoDisplay'>
-        {this.state.videos.map((video, index)=>{
-          return(<div key={index} className='videoContainer' onClick={()=>{this.handleVideoClick(video.id)}} >
-            <img
-              className='videoSnippet'
-              src={video.thumbnails.default.url}
-              alt={video.title}
-            />
-          </div>)
-        })}
+      <div className='snippetDisplayContainer' >
+        <button onClick={this.moveLeft}>left</button>
+        <div className='snippetDisplay'>
+          {this.state.videos.map((video, index)=>{
+            return(<div
+              key={index}
+              className='snippetContainer'
+              onClick={()=>{this.handleVideoClick(video.id)}} >
+              <img
+                className='snippet'
+                src={video.thumbnails.default.url}
+                alt={video.title} />
+            </div>)
+          })}
+        </div>
+        <button onClick={this.moveRight}>right</button>
       </div>
-      <button onClick={this.moveLeft}>left</button>
-      <button onClick={this.moveRight}>right</button>
-      <br/>
-      {this.state.currentVideo}
+      <div className='videoContainer' >
+        {this.state.currentVideo}
+      </div>
+
 
     </div>)
   }

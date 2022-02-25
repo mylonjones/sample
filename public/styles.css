@@ -135,7 +135,7 @@ html, body, #root, .App {
   grid-area: total;
   border-bottom: 1px solid black;
 }
-.meals {
+.calorieSets {
   grid-area: meals;
   /* display: grid;
   grid-template-rows: 20px 1fr;
@@ -143,7 +143,7 @@ html, body, #root, .App {
     "mealList" "filler"; */
 }
 
-.meal {
+.calorieSet {
   /* grid-area: mealList; */
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
@@ -151,20 +151,20 @@ html, body, #root, .App {
     "mealName amount edit";
 }
 
-.mealName {
+.calorieTitle {
   grid-area: mealName
 }
 
-.amount {
+.calorieAmount {
   grid-area: amount;
   border-left: 1px solid black;
 }
 
-.editMealButton {
+.editCaloriesButton {
   grid-area: edit;
 }
 
-.mealForm {
+.calorieForm {
   grid-area: form;
 }
 
@@ -218,11 +218,13 @@ input {
 
 /* Exercise Page */
 
-.videoDisplayContainer {
-  margin: auto;
+.snippetDisplayContainer {
+  display: flex;
+  border-bottom: 1px solid black;
+  margin-bottom: 20px;
 }
 
-.videoDisplay {
+.snippetDisplay {
   display: flex;
   overflow: hidden;
   transition: transform 1s;
@@ -231,19 +233,26 @@ input {
 
 }
 
-/* .videoDisplay:hover {
-  transform: translate(0px, 0px);
-} */
-
-.videoContainer {
+.snippetContainer {
   margin: 20px;
   transition: transform 1s;
 }
 
-.videoSnippet {
+.snippet {
   width: 250px;
 }
 
+.videoContainer {
+  margin: auto;
+  width: fit-content;
+}
+
+.video {
+  border: none;
+  width: 640px;
+  height: 360px;
+  margin: auto;
+}
 /* End Exercise Page */
 
 nav {
