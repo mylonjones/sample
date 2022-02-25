@@ -1,6 +1,7 @@
 import React from 'react'
 // import axios from 'axios'
 import videoData from '../videodata'
+import CalorieCounter from './calorieCounter'
 // const key = process.env.REACT_APP_API_YOUTUBE
 
 // import ReactPlayer from 'react-player'
@@ -94,6 +95,8 @@ class Exercise extends React.Component {
 
 
   render() {
+    const filter = function(calorieSet) {return calorieSet.cal <= 0}
+
     return (<div className='exerciseContainer dashPartition' >
       <div className='snippetDisplayContainer' >
         <button onClick={this.moveLeft}>left</button>
@@ -114,6 +117,9 @@ class Exercise extends React.Component {
       </div>
       <div className='videoContainer' >
         {this.state.currentVideo}
+      </div>
+      <div className='split' >
+        <CalorieCounter tracking='workout' filter={filter} sign='-' />
       </div>
 
 

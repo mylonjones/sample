@@ -15,7 +15,8 @@ class CalorieCounter extends React.Component {
     e.preventDefault();
     let calorieSet = {
       name: e.target[0].value,
-      cal: parseInt(e.target[1].value)
+      cal: parseInt(this.props.sign + e.target[1].value),
+      index: this.props.calories.length
     }
     this.props.addCalories(calorieSet)
     localStorage.setItem('meals', JSON.stringify(this.props.calories.concat([calorieSet])))
@@ -32,18 +33,19 @@ class CalorieCounter extends React.Component {
       })
       return
     }
-    let newMeal = {
+    let calorieSet = {
       name: e.target[0].value,
-      cal: parseInt(e.target[1].value)
+      cal: parseInt(this.props.sign + e.target[1].value),
+      index: parseInt(e.target.getAttribute('index'))
     }
 
-    let meals = this.props.calories
-    meals.splice(e.target.getAttribute('index'), 1, newMeal)
+    let calories = this.props.calories
+    calories.splice(e.target.getAttribute('index'), 1, calorieSet)
 
 
-    this.props.editCalories(newMeal, e.target.getAttribute('index'))
+    this.props.editCalories(calorieSet, e.target.getAttribute('index'))
 
-    localStorage.setItem('meals', JSON.stringify(meals))
+    localStorage.setItem('meals', JSON.stringify(calories))
 
     this.setState({
       edit: null
@@ -65,12 +67,12 @@ class CalorieCounter extends React.Component {
   render() {
     let countedCalories = this.props.calories.filter(this.props.filter)
 
-    const total = this.props.calories.reduce((prev, current) => prev + current.cal, 0);
+    const total = countedCalories.reduce((prev, current) => prev + current.cal, 0);
 
     return(<div className='calorieCounter' >
       <div className='total' >
         {'total '}
-        {total}
+        {Math.abs(total)}
       </div>
       <div className='calorieSets' >
         <div className='calorieSet' >
@@ -78,14 +80,13 @@ class CalorieCounter extends React.Component {
           <div className='calorieAmount' > calories </div>
         </div>
         {countedCalories.map((obj, index)=>{
-          obj.index = index
-          if(index === this.state.edit) {
+          if(obj.index === this.state.edit) {
             return (
               <form
                 className='calorieSet'
                 key={index}
                 onSubmit={this.handleEditSubmit}
-                index={index}
+                index={obj.index}
                 >
                 <input
                   type='text'
@@ -97,7 +98,7 @@ class CalorieCounter extends React.Component {
                   type='text'
                   onChange={(e)=>{this.handleChange(e, 'cal')}}
                   value={this.cal}
-                  placeholder={obj.cal}
+                  placeholder={Math.abs(obj.cal)}
                   className='calorieAmount' />
                 <input
                   type='submit'
@@ -110,16 +111,16 @@ class CalorieCounter extends React.Component {
               <div
                 className='calorieSet'
                 key={index}
-                index={index}
+                index={obj.index}
                 >
                 <div className='calorieTitle' >
                   {obj.name}
                 </div>
                 <div className='calorieAmount' >
-                  {obj.cal}
+                  {Math.abs(obj.cal)}
                 </div>
                 <button
-                  onClick={()=>{this.handleEditClick(index)}}
+                  onClick={()=>{this.handleEditClick(obj.index)}}
                   className='editCaloriesButton'
                   > edit </button>
               </div>
