@@ -16,18 +16,18 @@ class Diet extends React.Component {
     let newMeal = {
       name: meal.name,
       cal: meal.calories,
-      index: this.props.calories.length
+      index: this.props.calories.length,
+      type: 'meal'
     }
     this.props.addCalories(newMeal)
     localStorage.setItem('meals', JSON.stringify(this.props.calories.concat([newMeal])))
   }
 
   render() {
-    const filter = function(calorieSet) {return calorieSet.cal >= 0}
 
     return (
       <div className='dietContainer split dashPartition' >
-        <CalorieCounter tracking='meal' filter={filter} sign='+' />
+        <CalorieCounter type='meal' />
         <div className='recipes' >
           {this.props.recipes.map((recipe, index) => {
             return (<div className='recipeCard' key={index}>

@@ -95,7 +95,6 @@ class Exercise extends React.Component {
 
 
   render() {
-    const filter = function(calorieSet) {return calorieSet.cal <= 0}
 
     return (<div className='exerciseContainer dashPartition' >
       <div className='snippetDisplayContainer' >
@@ -119,7 +118,7 @@ class Exercise extends React.Component {
         {this.state.currentVideo}
       </div>
       <div className='split' >
-        <CalorieCounter tracking='workout' filter={filter} sign='-' />
+        <CalorieCounter type='workout' />
       </div>
 
 

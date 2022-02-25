@@ -15,8 +15,9 @@ class CalorieCounter extends React.Component {
     e.preventDefault();
     let calorieSet = {
       name: e.target[0].value,
-      cal: parseInt(this.props.sign + e.target[1].value),
-      index: this.props.calories.length
+      cal: parseInt(e.target[1].value),
+      index: this.props.calories.length,
+      type: this.props.type
     }
     this.props.addCalories(calorieSet)
     localStorage.setItem('meals', JSON.stringify(this.props.calories.concat([calorieSet])))
@@ -35,8 +36,9 @@ class CalorieCounter extends React.Component {
     }
     let calorieSet = {
       name: e.target[0].value,
-      cal: parseInt(this.props.sign + e.target[1].value),
-      index: parseInt(e.target.getAttribute('index'))
+      cal: parseInt(e.target[1].value),
+      index: parseInt(e.target.getAttribute('index')),
+      type: this.props.type
     }
 
     let calories = this.props.calories
@@ -65,18 +67,18 @@ class CalorieCounter extends React.Component {
   }
 
   render() {
-    let countedCalories = this.props.calories.filter(this.props.filter)
+    let countedCalories = this.props.calories.filter(calories => calories.type === this.props.type)
 
     const total = countedCalories.reduce((prev, current) => prev + current.cal, 0);
 
     return(<div className='calorieCounter' >
       <div className='total' >
         {'total '}
-        {Math.abs(total)}
+        {total}
       </div>
       <div className='calorieSets' >
         <div className='calorieSet' >
-          <div className='calorieTitle' > {this.props.tracking} </div>
+          <div className='calorieTitle' > {this.props.type} </div>
           <div className='calorieAmount' > calories </div>
         </div>
         {countedCalories.map((obj, index)=>{
@@ -98,7 +100,7 @@ class CalorieCounter extends React.Component {
                   type='text'
                   onChange={(e)=>{this.handleChange(e, 'cal')}}
                   value={this.cal}
-                  placeholder={Math.abs(obj.cal)}
+                  placeholder={obj.cal}
                   className='calorieAmount' />
                 <input
                   type='submit'
@@ -117,7 +119,7 @@ class CalorieCounter extends React.Component {
                   {obj.name}
                 </div>
                 <div className='calorieAmount' >
-                  {Math.abs(obj.cal)}
+                  {obj.cal}
                 </div>
                 <button
                   onClick={()=>{this.handleEditClick(obj.index)}}
@@ -130,7 +132,7 @@ class CalorieCounter extends React.Component {
       <div className='calorieForm' >
         <form onSubmit={this.handleCalorieSubmit}>
           <label>
-            {this.props.tracking}
+            {this.props.type}
             <input type='text' autoComplete="off" name='meal' />
           </label>
           <label>
