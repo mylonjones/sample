@@ -95,13 +95,13 @@ class CalorieCounter extends React.Component {
                   onChange={(e)=>{this.handleChange(e, 'name')}}
                   value={this.name}
                   placeholder={obj.name}
-                  className='calorieTitle' />
+                  className='textInput' />
                 <input
                   type='text'
                   onChange={(e)=>{this.handleChange(e, 'cal')}}
                   value={this.cal}
                   placeholder={obj.cal}
-                  className='calorieAmount' />
+                  className='textInput' />
                 <input
                   type='submit'
                   className='editCaloriesButton'
@@ -129,19 +129,19 @@ class CalorieCounter extends React.Component {
             )
           }
       })}</div>
-      <div className='calorieForm' >
-        <form onSubmit={this.handleCalorieSubmit}>
-          <label>
-            {this.props.type}
-            <input type='text' autoComplete="off" name='meal' />
-          </label>
-          <label>
-            calories
-            <input type='text' autoComplete="off" name='calories' />
-          </label>
-          <input type='submit' value='add' />
-        </form>
-      </div>
+      <form className='calorieForm' onSubmit={this.handleCalorieSubmit}>
+        <label>
+          {this.props.type}
+          <br/>
+          <input type='text' autoComplete="off" name='meal' className='textInput' />
+        </label>
+        <label>
+          calories
+          <br/>
+          <input type='text' autoComplete="off" name='calories' className='textInput' />
+        </label>
+        <input type='submit' value='add' />
+      </form>
     </div>)
   }
 }
