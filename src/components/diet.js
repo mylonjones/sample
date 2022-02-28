@@ -1,15 +1,31 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { addCalories, addRecipes, editCalories } from '../redux'
+import axios from 'axios'
 import CalorieCounter from './calorieCounter'
 
+const key = process.env.REACT_APP_API_SPOONACULAR
+
 class Diet extends React.Component {
-  // constructor(props) {
-  //   super (props)
-  // }
+  constructor(props) {
+    super (props)
+
+    this.state = {
+      query: '',
+      recipes: []
+    }
+    this.changeHandler = this.changeHandler.bind(this)
+    this.searchHandler = this.searchHandler.bind(this)
+  }
 
   componentDidMount() {
-    require('../recipeLoader.js')
+    // require('../recipeLoader.js')
+  }
+
+  changeHandler(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
   }
 
   handleAddCalories (meal) {
@@ -23,13 +39,57 @@ class Diet extends React.Component {
     localStorage.setItem('meals', JSON.stringify(this.props.calories.concat([newMeal])))
   }
 
+  searchHandler(e) {
+    e.preventDefault()
+
+    axios({
+      methos: 'get',
+      url: 'https://api.spoonacular.com/recipes/complexSearch',
+      params: {
+        apiKey: key,
+        query: this.state.query,
+        number: 5,
+        minCalories: 0
+      }
+    })
+    .then((response) => {
+      const data = response.data.results
+      console.log(response)
+      this.setState({
+        recipes: data.map((recipe)=>{
+          return {
+            calories: Math.trunc(recipe.nutrition.nutrients[0].amount),
+            name: recipe.title,
+            image: recipe.image
+          }
+        })
+      })
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+
+
+    this.setState({
+      query: ''
+    })
+  }
+
   render() {
 
     return (
       <div className='dietContainer split dashPartition' >
         <CalorieCounter type='meal' />
         <div className='recipes' >
-          {this.props.recipes.map((recipe, index) => {
+          <div className='search' >
+            <form onSubmit={this.searchHandler} >
+              <label>
+                <input type='text' autoComplete='off' name='query' value={this.state.query} onChange={this.changeHandler}  />
+              </label>
+              <input type='submit' value='search' />
+            </form>
+          </div>
+          {this.state.recipes.map((recipe, index) => {
             return (<div className='recipeCard' key={index}>
               <img
                 className='recipeImage'

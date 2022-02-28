@@ -111,26 +111,33 @@ class Exercise extends React.Component {
   submitHandler(e) {
     e.preventDefault()
     let { gender, weight, feet, inches, age, activity } = this.state
-    weight = parseFloat(weight)
-    feet = parseFloat(feet)
     inches = parseFloat(inches)
+    inches = inches ? inches : 0
+    let height = parseFloat(feet) * 12 + inches
+    weight = parseFloat(weight)
     age = parseFloat(age)
 
-    let fields = { weight, feet, inches, age }
-    console.log(fields)
+    let fields = { weight, height, age }
+    let missingField = false
     for(let key in fields) {
+      let warning = document.getElementById(key)
+      warning.innerHTML = key
+      warning.classList.remove('warning')
       if(isNaN(fields[key])) {
-        console.log('enter a real number for ' + key)
-        return
+        warning.classList.add('warning')
+        warning.innerHTML += ' must be a valid number'
+        missingField = true
       }
     }
+    if(missingField) return
 
     let calculated = 0
 
+    // Revised Harris-Benedict Equation
     if(gender === 'male') {
-      calculated = (66 + 6.2 * weight + 12.7 * (12 * feet + inches) - 6.76 * age) * activity
+      calculated = (88.362 + 0.453592 * 13.397 * weight + 2.54 * 4.799 * height - 5.677 * age) * activity
     } else {
-      calculated = (655.1 + 4.35 * weight + 4.7 * (12 * feet + inches) - 4.7 * age) * activity
+      calculated = (447.593 + 0.453592 * 9.247 * weight + 2.54 * 3.098 * height - 4.33 * age) * activity
     }
 
     this.setState({
@@ -169,22 +176,18 @@ class Exercise extends React.Component {
             </label>
 
             <label>
-              weight
-              <br/>
+              <div id='weight' >weight</div>
               <input onChange={this.changeHandler} value={this.state.weight} className='textInput calculatorField' name='weight' type='number'></input>
             </label>
 
             <label>
-              height
-              <br/>
+              <div id='height' >height</div>
               <input onChange={this.changeHandler} value={this.state.feet} className='textInput' name='feet' type='number' placeholder='feet' ></input>
-              <br/>
               <input onChange={this.changeHandler} value={this.state.inches} className='textInput calculatorField' name='inches' type='number' placeholder='inches' ></input>
             </label>
 
             <label>
-              age
-              <br/>
+              <div id='age' >age</div>
               <input onChange={this.changeHandler} value={this.state.age} className='textInput calculatorField' name='age' type='number' ></input>
             </label>
 
