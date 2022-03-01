@@ -243,13 +243,13 @@ html, body, #root, .App {
 .snippetDisplay {
   display: flex;
   overflow: hidden;
-  width: 870px;
+  max-width: 870px;
   margin: auto;
 
 }
 
 .snippetContainer {
-  margin: 20px;
+  padding: 20px;
   transition: transform 1s;
 }
 

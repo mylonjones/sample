@@ -1,11 +1,8 @@
 import React from 'react'
-// import axios from 'axios'
-import videoData from '../videodata'
+import axios from 'axios'
+import sampleVidoes from '../videodata'
 import CalorieCounter from './calorieCounter'
-// const key = process.env.REACT_APP_API_YOUTUBE
-
-// import ReactPlayer from 'react-player'
-// <ReactPlayer controls url='http://www.youtube.com/embed/6w7XxuH6iL8' ></ReactPlayer>
+const key = process.env.REACT_APP_API_YOUTUBE
 
 
 class Exercise extends React.Component {
@@ -14,6 +11,7 @@ class Exercise extends React.Component {
     this.state = {
       videos: [],
       displayPosition: 0,
+      query: '',
       currentVideo: <div className='videoPlaceHolder'/>,
       gender: '',
       weight: '',
@@ -28,21 +26,11 @@ class Exercise extends React.Component {
     this.moveLeft = this.moveLeft.bind(this)
     this.changeHandler = this.changeHandler.bind(this)
     this.submitHandler = this.submitHandler.bind(this)
+    this.searchHandler = this.searchHandler.bind(this)
   }
 
   componentDidMount() {
-    // axios({
-    //   method: 'get',
-    //   url: `https://youtube.googleapis.com/youtube/v3/search?part=snippet%2C%20id&channelId=UCEbbyBuyQiHpKiOMj9GFhVw&key=${key}`,
-    //   responseType: 'json'
-    // })
-    // .then((response) => {
-    //   const videos = response.data.items
-    //   console.log(videos)
-
-    // })
-
-    const snippet = videoData.map((video)=>{
+    const snippet = sampleVidoes.map((video)=>{
       return {
         id: video.id.videoId,
         description: video.snippet.description,
@@ -55,6 +43,7 @@ class Exercise extends React.Component {
 
   moveRight() {
     const videoContainers = document.getElementsByClassName('snippetContainer')
+    let width = videoContainers[0].offsetWidth
 
     if(this.state.displayPosition >= this.state.videos.length - 3) {
       for(let display of videoContainers) {
@@ -65,7 +54,7 @@ class Exercise extends React.Component {
       })
     } else {
       for(let display of videoContainers) {
-        display.style.transform += 'translateX(-290px)'
+        display.style.transform += 'translateX(-' + width + 'px)'
       }
       this.setState({
         displayPosition: this.state.displayPosition + 1
@@ -75,16 +64,18 @@ class Exercise extends React.Component {
 
   moveLeft() {
     const videoContainers = document.getElementsByClassName('snippetContainer')
+    let width = videoContainers[0].offsetWidth
+
     if(this.state.displayPosition <= 0) {
       for(let display of videoContainers) {
-        display.style.transform = 'translateX(' + ((this.state.videos.length - 3) * (-290)) + 'px)'
+        display.style.transform = 'translateX(' + ((this.state.videos.length - 3) * (-width)) + 'px)'
       }
       this.setState({
         displayPosition: this.state.videos.length - 3
       })
     } else {
       for(let display of videoContainers) {
-        display.style.transform += 'translateX(290px)'
+        display.style.transform += 'translateX(' + width + 'px)'
       }
       this.setState({
         displayPosition: this.state.displayPosition - 1
@@ -145,6 +136,44 @@ class Exercise extends React.Component {
     })
   }
 
+  searchHandler(e) {
+    e.preventDefault()
+
+    axios({
+      methos: 'get',
+      url: 'https://youtube.googleapis.com/youtube/v3/search',
+      params: {
+        key: key,
+        part: 'snippet',
+        channelId: 'UCEbbyBuyQiHpKiOMj9GFhVw',
+        q: this.state.query,
+        type: 'video'
+      }
+    })
+    .then((response) => {
+      let snippets = response.data.items
+      snippets = snippets.map((video)=>{
+        return {
+          id: video.id.videoId,
+          description: video.snippet.description,
+          title: video.snippet.title,
+          thumbnails: video.snippet.thumbnails
+        }
+      })
+
+      this.setState({
+        videos: snippets
+      })
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+
+
+    this.setState({
+      query: ''
+    })
+  }
 
   render() {
 
@@ -207,6 +236,14 @@ class Exercise extends React.Component {
             {'Your daily burn is ' + this.state.dailyBurn}
           </form>
         </div>
+      </div>
+      <div className='search' >
+        <form onSubmit={this.searchHandler} >
+          <label>
+            <input type='text' autoComplete='off' name='query' value={this.state.query} onChange={this.changeHandler}  />
+          </label>
+          <input type='submit' value='search' />
+        </form>
       </div>
       <div className='snippetDisplayContainer' >
         <button onClick={this.moveLeft}>left</button>
