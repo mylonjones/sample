@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { addCalories, addRecipes, editCalories } from '../redux'
 import axios from 'axios'
 import CalorieCounter from './calorieCounter'
+import sampleRecipes from '../recipeLoader.js'
 
 const key = process.env.REACT_APP_API_SPOONACULAR
 
@@ -19,7 +20,9 @@ class Diet extends React.Component {
   }
 
   componentDidMount() {
-    // require('../recipeLoader.js')
+    this.setState({
+      recipes: sampleRecipes
+    })
   }
 
   changeHandler(e) {

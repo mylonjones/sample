@@ -128,12 +128,13 @@ class CalorieCounter extends React.Component {
                   {obj.cal}
                 </div>
                 <button
+                  className='deleteOneButton'
+                  onClick={()=>{this.handleDeleteOneClick(obj.index)}}
+                  > X </button>
+                <button
                   onClick={()=>{this.handleEditClick(obj.index)}}
                   className='editCaloriesButton'
                   > edit </button>
-                <button
-                  onClick={()=>{this.handleDeleteOneClick(obj.index)}}
-                  > X </button>
               </div>
             )
           }

@@ -133,22 +133,27 @@ html, body, #root, .App {
 
 .total {
   grid-area: total;
-  border-bottom: 1px solid black;
 }
 .calorieSets {
   grid-area: meals;
-  /* display: grid;
-  grid-template-rows: 20px 1fr;
-  grid-template-areas:
-    "mealList" "filler"; */
+  overflow-y: scroll;
+  padding: 10px;
+  border: 1px solid black;
+}
+
+.calorieSets::-webkit-scrollbar {
+  display: none;
 }
 
 .calorieSet {
-  /* grid-area: mealList; */
+  padding: 5px;
+  margin: 5px;
+  border: 1px solid gray;
+  background-color: #eaf6ff;
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 4fr 2fr 1fr 1fr;
   grid-template-areas:
-    "mealName amount edit";
+    "mealName amount delete edit";
 }
 
 .calorieTitle {
@@ -157,11 +162,18 @@ html, body, #root, .App {
 
 .calorieAmount {
   grid-area: amount;
+  padding-left: 5px;
   border-left: 1px solid black;
+}
+
+.deleteOneButton {
+  grid-area: delete;
+  height: fit-content;
 }
 
 .editCaloriesButton {
   grid-area: edit;
+  height: fit-content;
 }
 
 .calorieForm {
