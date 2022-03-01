@@ -48,6 +48,7 @@ class Diet extends React.Component {
       params: {
         apiKey: key,
         query: this.state.query,
+        instructionsRequired: true,
         number: 5,
         minCalories: 0
       }

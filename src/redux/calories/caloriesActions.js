@@ -1,4 +1,4 @@
-import { ADD_CALORIES, EDIT_CALORIES } from './caloriesTypes'
+import { ADD_CALORIES, EDIT_CALORIES, DELETE_ONE_CALORIES } from './caloriesTypes'
 
 export const addCalories = (item) => {
   return {
@@ -11,6 +11,13 @@ export const editCalories = (item, index) => {
   return {
     type: EDIT_CALORIES,
     item,
+    index
+  }
+}
+
+export const deleteOneCalories = (index) => {
+  return {
+    type: DELETE_ONE_CALORIES,
     index
   }
 }

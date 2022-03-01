@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addCalories, editCalories } from '../redux'
+import { addCalories, editCalories, deleteOneCalories } from '../redux'
 
 class CalorieCounter extends React.Component {
   constructor(props) {
@@ -66,6 +66,12 @@ class CalorieCounter extends React.Component {
     })
   }
 
+  handleDeleteOneClick (index) {
+    this.props.deleteOneCalories(index)
+    localStorage.setItem('meals', JSON.stringify(this.props.calories))
+    this.forceUpdate()
+  }
+
   render() {
     let countedCalories = this.props.calories.filter(calories => calories.type === this.props.type)
 
@@ -125,6 +131,9 @@ class CalorieCounter extends React.Component {
                   onClick={()=>{this.handleEditClick(obj.index)}}
                   className='editCaloriesButton'
                   > edit </button>
+                <button
+                  onClick={()=>{this.handleDeleteOneClick(obj.index)}}
+                  > X </button>
               </div>
             )
           }
@@ -155,7 +164,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     addCalories: (value) => dispatch(addCalories(value)),
-    editCalories: (item, index) => dispatch(editCalories(item, index))
+    editCalories: (item, index) => dispatch(editCalories(item, index)),
+    deleteOneCalories: (index) => dispatch(deleteOneCalories(index))
   }
 }
 

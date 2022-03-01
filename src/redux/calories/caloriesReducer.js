@@ -1,4 +1,4 @@
-import { ADD_CALORIES, EDIT_CALORIES } from './caloriesTypes'
+import { ADD_CALORIES, EDIT_CALORIES, DELETE_ONE_CALORIES } from './caloriesTypes'
 
 let initialState = {
   calories: []
@@ -22,6 +22,17 @@ const caloriesReducer = (state = initialState, action) => {
       state.calories.splice(action.index, 1, action.item)
       return {
         ...state
+      }
+    }
+    case DELETE_ONE_CALORIES: {
+      let calorieSets = state.calories
+      calorieSets.splice(action.index, 1)
+      for(let i = action.index; i < calorieSets.length; i++) {
+        calorieSets[i].index = calorieSets[i].index - 1
+      }
+      return {
+        ...state,
+        calories: calorieSets
       }
     }
 
