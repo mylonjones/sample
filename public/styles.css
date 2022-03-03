@@ -241,7 +241,7 @@ html, body, #root, .App {
 }
 
 .snippetDisplay {
-  display: flex;
+  white-space: nowrap;
   overflow: hidden;
   max-width: 870px;
   margin: auto;
@@ -249,12 +249,14 @@ html, body, #root, .App {
 }
 
 .snippetContainer {
+  display: inline-block;
   padding: 20px;
   transition: transform 1s;
+  width: calc(33.3% - 40px);
 }
 
 .snippet {
-  width: 250px;
+  width: 100%;
 }
 
 .videoContainer {
