@@ -1,0 +1,92 @@
+/** Home Page Style */
+.titleContainer {
+  background-color: inherit;
+  padding: 80px 0;
+
+}
+
+.title {
+  text-align: center;
+  font-size: 35px;
+  font-weight: bold;
+  color: black;
+}
+
+.subTitle {
+  text-align: center;
+  font-size: small;
+}
+
+.spacer {
+  text-align: center;
+  font-weight: bold;
+  font-size: large;
+  padding: 30px;
+  margin: 25px;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+.sideBySide {
+  display: grid;
+  grid-template-columns: 33.3% 33.3% 33.3%;
+  grid-template-areas: "left middle right";
+}
+
+.sentense1 {
+  grid-area: left;
+}
+
+.sentense2 {
+  grid-area: middle;
+}
+
+.sentense3 {
+  grid-area: right;
+}
+
+.inside {
+  margin: 10px;
+  border: 1px solid gray;
+  background-color: #def4ff;
+  color: gray;
+  padding: 20px;
+  &:hover {
+    background-color: #c8def1;
+    color: black;
+  }
+}
+
+.spacer2 {
+  text-align: center;
+  font-weight: bold;
+  font-size: large;
+  padding: 30px;
+  background-color: white;
+  margin-top: 20px;
+}
+
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: "left right";
+}
+
+.chicken {
+  grid-area: left;
+}
+
+.content {
+  grid-area: right;
+  padding: 20px;
+  margin: 0;
+  line-height: 3;
+  background-color: black;
+}
+
+.bold {
+  font-weight: bold;
+  color: white;
+  font-size: 30px;
+}
+/** End Home Page Style */

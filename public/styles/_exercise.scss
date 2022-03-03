@@ -1,0 +1,76 @@
+
+/* Exercise Page */
+
+
+.snippetDisplayContainer {
+  display: flex;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  margin-bottom: 20px;
+}
+
+.snippetDisplay {
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 870px;
+  margin: auto;
+
+}
+
+.snippetContainer {
+  display: inline-block;
+  padding: 20px;
+  transition: transform 1s;
+  width: calc(33.3% - 40px);
+}
+
+.snippet {
+  width: 100%;
+}
+
+.videoContainer {
+  margin: auto;
+  width: fit-content;
+}
+
+.video {
+  border: none;
+  width: 640px;
+  height: 360px;
+  margin: auto;
+}
+
+.exerciseCalorieContainer {
+  column-gap: 10px;
+  margin: 10px 0;
+}
+
+.calorieCalculator {
+  grid-area: right;
+  border: 1px solid black;
+  padding: 10px;
+
+}
+
+.calculatorForm {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  margin: auto;
+  padding: 5px 0;
+}
+
+.calculatorField {
+  margin-bottom: 10px;
+}
+
+h3 {
+  text-align: center;
+}
+
+.warning {
+  color: red;
+}
+
+
+/* End Exercise Page */
