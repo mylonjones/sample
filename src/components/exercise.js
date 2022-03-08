@@ -140,7 +140,7 @@ class Exercise extends React.Component {
     e.preventDefault()
 
     axios({
-      methos: 'get',
+      method: 'get',
       url: 'https://youtube.googleapis.com/youtube/v3/search',
       params: {
         key: key,

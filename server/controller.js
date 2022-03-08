@@ -1,14 +1,55 @@
-const pg = require('./postgres/db.js');
+const pg = require('./postgres/db.js')
+
+async function setCalories(calories, day_id) {
+  let code = 200
+  await pg.query(`DELETE FROM calories WHERE day_id = ${day_id}`)
+    .then(() => {
+      let query = `INSERT INTO calories (day_id, name, calories, index, type) VALUES `
+
+      for(let set of calories) {
+        query += `(${day_id}, '${set.name}', ${set.cal}, ${set.index}, '${set.type}'),`
+      }
+      query = query.slice(0, query.length - 1)
+
+      pg.query(query)
+        .then(() => console.log('submited calories'))
+        .catch(e => {
+          console.log('error in calorie insert', e)
+          code = 404
+        })
+    })
+    .catch(e => {
+      console.log('error in calorie delete by day id', e)
+      code = 404
+    })
+
+  return code
+}
 
 const controller = {
   postDay: (req, res) => {
-    let {id, date} = req.body
+    let { id, date, calories } = req.body
     console.log(id, date)
-    let query = `INSERT INTO days (user_id, date) VALUES (${id}, '${date}')`
-    pg.query(query)
-      .then(() => console.log('added day'))
-      .catch(e => console.log(e))
-    res.send()
+
+    pg.query(`SELECT _id FROM days WHERE date = '${ date }' AND user_id = ${ id }`)
+      .then((result) => {
+        let _id = result.rows[0]
+        if(_id) {
+          res.status(200).end()
+        } else {
+          pg.query(`INSERT INTO days (user_id, date) VALUES (${ id }, '${ date }') RETURNING _id`)
+            .then(async function(result) {
+              let _id = result.rows[0]._id
+              let code = await setCalories(calories, _id)
+              res.status(code).end()
+            })
+            .catch(e => res.status(404).end())
+        }
+      })
+      .catch(e => res.status(404).end())
+  },
+  postCalories: (req, res) => {
+
   }
 }
 

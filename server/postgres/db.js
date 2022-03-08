@@ -17,10 +17,10 @@ const createUsers = `CREATE TABLE IF NOT EXISTS users (
 const createDays = `CREATE TABLE IF NOT EXISTS days(
   _id SERIAL PRIMARY KEY,
   user_id INT REFERENCES users (_id),
-  date TIMESTAMP WITH TIME ZONE NOT NULL
+  date TIMESTAMP NOT NULL
 )`
 
-const createCalories = `CREATE TABLE IF NOT EXISTS calories(
+const createCalories = `CREATE TABLE IF NOT EXISTS calories (
   _id SERIAL PRIMARY KEY,
   day_id INT REFERENCES days (_id),
   name VARCHAR (50) NOT NULL,
@@ -29,7 +29,7 @@ const createCalories = `CREATE TABLE IF NOT EXISTS calories(
   type VARCHAR (10) NOT NULL
 )`
 
-const deleteCalories = `DROP TABLE IF EXISTS caloreis`
+const deleteCalories = `DROP TABLE IF EXISTS calories`
 const deleteDays = `DROP TABLE IF EXISTS days`
 const deleteUsers = `DROP TABLE IF EXISTS users`
 

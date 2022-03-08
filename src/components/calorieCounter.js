@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import axios from 'axios'
 import { addCalories, editCalories, deleteOneCalories } from '../redux'
 
 class CalorieCounter extends React.Component {
@@ -72,6 +73,31 @@ class CalorieCounter extends React.Component {
     this.forceUpdate()
   }
 
+  handleSubmitForDay () {
+    let id = 1
+    let calories = JSON.parse(localStorage.getItem('meals'))
+    const d = new Date()
+    let day = d.getDate()
+    let month = d.getMonth()
+    let year = d.getFullYear()
+    let date = year + '-' + month + '-' + day
+
+    axios({
+      method: 'post',
+      url: '/api/days',
+      data: {
+        id,
+        date,
+        calories
+      }})
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+  }
+
   render() {
     let countedCalories = this.props.calories.filter(calories => calories.type === this.props.type)
 
@@ -82,6 +108,9 @@ class CalorieCounter extends React.Component {
         {'total '}
         {total}
       </div>
+      <button className='dailySubmit'
+      onClick={this.handleSubmitForDay}
+      >submit for the day</button>
       <div className='calorieSets' >
         <div className='calorieSet' >
           <div className='calorieTitle' > {this.props.type} </div>

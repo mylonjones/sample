@@ -8,10 +8,11 @@
   grid-area: left;
   display: grid;
   grid-template-rows: 20px auto 100px;
+  grid-template-columns: 1fr 1fr;
   grid-template-areas:
-    "total"
-    "meals"
-    "form";
+    "total submit"
+    "meals meals"
+    "form form";
   border: 1px solid black;
   padding: 10px;
   height: 400px;
@@ -20,6 +21,11 @@
 .total {
   grid-area: total;
 }
+
+.dailySubmit {
+  grid-area: submit;
+}
+
 .calorieSets {
   grid-area: meals;
   overflow-y: scroll;

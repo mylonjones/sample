@@ -120,7 +120,9 @@
   display: grid;
   -ms-grid-rows: 20px auto 100px;
       grid-template-rows: 20px auto 100px;
-      grid-template-areas: "total" "meals" "form";
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas: "total submit" "meals meals" "form form";
   border: 1px solid black;
   padding: 10px;
   height: 400px;
@@ -132,9 +134,16 @@
   grid-area: total;
 }
 
+.dailySubmit {
+  -ms-grid-row: 1;
+  -ms-grid-column: 2;
+  grid-area: submit;
+}
+
 .calorieSets {
   -ms-grid-row: 2;
   -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
   grid-area: meals;
   overflow-y: scroll;
   padding: 10px;
@@ -192,6 +201,7 @@
 .calorieForm {
   -ms-grid-row: 3;
   -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
   grid-area: form;
   display: -webkit-box;
   display: -ms-flexbox;
