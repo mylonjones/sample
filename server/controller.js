@@ -48,8 +48,33 @@ const controller = {
       })
       .catch(e => res.status(404).end())
   },
-  postCalories: (req, res) => {
+  getDays: (req, res) => {
+    let { user_id } = req.params
+    pg.query(`SELECT * FROM days WHERE user_id = ${ user_id }`)
+      .then((result) => {
+        let days = result.rows
 
+        let query = `SELECT * FROM calories WHERE day_id = ${days[0]._id}`
+
+        for(let i = 1; i < days.length; i++) {
+          query += ` OR day_id = ${days[i]._id}`
+        }
+
+
+        pg.query(query)
+          .then((result) => {
+            for(let key in days) {
+              days[key].calorieSets = result.rows.filter((row) => row.day_id === days[key]._id)
+            }
+            console.log(days[0].calorieSets)
+
+
+          })
+          .catch(e => console.log(e))
+      })
+      .catch(e => console.log(e))
+
+    res.end()
   }
 }
 

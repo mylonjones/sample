@@ -4,15 +4,18 @@
   padding: 10px 0;
 }
 
-.calorieCounter {
+.calorieDisplay {
   grid-area: left;
+}
+
+.calorieCounter {
   display: grid;
-  grid-template-rows: 20px auto 100px;
-  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 30px auto 100px;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-template-areas:
-    "total submit"
-    "meals meals"
-    "form form";
+    "total history submit"
+    "meals meals meals"
+    "form form form";
   border: 1px solid black;
   padding: 10px;
   height: 400px;
@@ -22,8 +25,17 @@
   grid-area: total;
 }
 
-.dailySubmit {
+.dailySubmitContainer {
   grid-area: submit;
+  padding-bottom: 15px;
+}
+
+.historyContainer {
+  grid-area: history;
+}
+
+.dailySubmitButton {
+  float: right;
 }
 
 .calorieSets {

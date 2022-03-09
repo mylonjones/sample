@@ -2,14 +2,21 @@ import React from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import { addCalories, editCalories, deleteOneCalories } from '../redux'
+import History from './history.js'
 
 class CalorieCounter extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { edit: null, name: '', cal: '' }
+    this.state = {
+      edit: null,
+      name: '',
+      cal: '',
+      showHistory: false
+    }
     this.handleEditSubmit = this.handleEditSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleCalorieSubmit = this.handleCalorieSubmit.bind(this)
+    this.handleToggleHistory = this.handleToggleHistory.bind(this)
   }
 
   handleCalorieSubmit (e) {
@@ -89,99 +96,119 @@ class CalorieCounter extends React.Component {
         id,
         date,
         calories
-      }})
-        .then((res) => {
-          console.log(res)
-        })
-        .catch((e) => {
-          console.log(e)
-        })
+      }
+    })
+      .catch((e) => {
+        console.log(e)
+      })
   }
+
+  handleToggleHistory () {
+    this.setState({
+      showHistory: !this.state.showHistory
+    })
+  }
+
 
   render() {
     let countedCalories = this.props.calories.filter(calories => calories.type === this.props.type)
 
     const total = countedCalories.reduce((prev, current) => prev + current.cal, 0);
 
-    return(<div className='calorieCounter' >
-      <div className='total' >
-        {'total '}
-        {total}
-      </div>
-      <button className='dailySubmit'
-      onClick={this.handleSubmitForDay}
-      >submit for the day</button>
-      <div className='calorieSets' >
-        <div className='calorieSet' >
-          <div className='calorieTitle' > {this.props.type} </div>
-          <div className='calorieAmount' > calories </div>
+    if(this.state.showHistory) {
+
+      return <History toggle={this.handleToggleHistory} />
+    } else {
+
+      return(<div className='calorieCounter calorieDisplay' >
+        <div className='total' >
+          {'total '}
+          {total}
         </div>
-        {countedCalories.map((obj, index)=>{
-          if(obj.index === this.state.edit) {
-            return (
-              <form
-                className='calorieSet'
-                key={index}
-                onSubmit={this.handleEditSubmit}
-                index={obj.index}
-                >
-                <input
-                  type='text'
-                  onChange={(e)=>{this.handleChange(e, 'name')}}
-                  value={this.name}
-                  placeholder={obj.name}
-                  className='textInput' />
-                <input
-                  type='text'
-                  onChange={(e)=>{this.handleChange(e, 'cal')}}
-                  value={this.cal}
-                  placeholder={obj.cal}
-                  className='textInput' />
-                <input
-                  type='submit'
-                  className='editCaloriesButton'
-                  value='change' />
-              </form>
-            )
-          } else {
-            return (
-              <div
-                className='calorieSet'
-                key={index}
-                index={obj.index}
-                >
-                <div className='calorieTitle' >
-                  {obj.name}
+        <div className='historyContainer'>
+          <button
+            className='historyButton'
+            onClick={this.handleToggleHistory}
+          >show hostory</button>
+        </div>
+        <div className='dailySubmitContainer'>
+          <button
+            className='dailySubmitButton'
+            onClick={this.handleSubmitForDay}
+          >submit day</button>
+        </div>
+        <div className='calorieSets' >
+          <div className='calorieSet' >
+            <div className='calorieTitle' > {this.props.type} </div>
+            <div className='calorieAmount' > calories </div>
+          </div>
+          {countedCalories.map((obj, index)=>{
+            if(obj.index === this.state.edit) {
+              return (
+                <form
+                  className='calorieSet'
+                  key={index}
+                  onSubmit={this.handleEditSubmit}
+                  index={obj.index}
+                  >
+                  <input
+                    type='text'
+                    onChange={(e)=>{this.handleChange(e, 'name')}}
+                    value={this.name}
+                    placeholder={obj.name}
+                    className='textInput' />
+                  <input
+                    type='text'
+                    onChange={(e)=>{this.handleChange(e, 'cal')}}
+                    value={this.cal}
+                    placeholder={obj.cal}
+                    className='textInput' />
+                  <input
+                    type='submit'
+                    className='editCaloriesButton'
+                    value='change' />
+                </form>
+              )
+            } else {
+              return (
+                <div
+                  className='calorieSet'
+                  key={index}
+                  index={obj.index}
+                  >
+                  <div className='calorieTitle' >
+                    {obj.name}
+                  </div>
+                  <div className='calorieAmount' >
+                    {obj.cal}
+                  </div>
+                  <button
+                    className='deleteOneButton'
+                    onClick={()=>{this.handleDeleteOneClick(obj.index)}}
+                    > X </button>
+                  <button
+                    onClick={()=>{this.handleEditClick(obj.index)}}
+                    className='editCaloriesButton'
+                    > edit </button>
                 </div>
-                <div className='calorieAmount' >
-                  {obj.cal}
-                </div>
-                <button
-                  className='deleteOneButton'
-                  onClick={()=>{this.handleDeleteOneClick(obj.index)}}
-                  > X </button>
-                <button
-                  onClick={()=>{this.handleEditClick(obj.index)}}
-                  className='editCaloriesButton'
-                  > edit </button>
-              </div>
-            )
-          }
-      })}</div>
-      <form className='calorieForm' onSubmit={this.handleCalorieSubmit}>
-        <label>
-          {this.props.type}
-          <br/>
-          <input type='text' autoComplete="off" name='meal' className='textInput' />
-        </label>
-        <label>
-          calories
-          <br/>
-          <input type='text' autoComplete="off" name='calories' className='textInput' />
-        </label>
-        <input type='submit' value='add' />
-      </form>
-    </div>)
+              )
+            }
+        })}</div>
+        <form className='calorieForm' onSubmit={this.handleCalorieSubmit}>
+          <label>
+            {this.props.type}
+            <br/>
+            <input type='text' autoComplete="off" name='meal' className='textInput' />
+          </label>
+          <label>
+            calories
+            <br/>
+            <input type='text' autoComplete="off" name='calories' className='textInput' />
+          </label>
+          <input type='submit' value='add' />
+        </form>
+      </div>)
+    }
   }
 }
 
