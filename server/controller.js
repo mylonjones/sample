@@ -50,31 +50,30 @@ const controller = {
   },
   getDays: (req, res) => {
     let { user_id } = req.params
-    pg.query(`SELECT * FROM days WHERE user_id = ${ user_id }`)
+    pg.query(`SELECT date, name, calories, type FROM days, calories WHERE days.user_id = ${ user_id } AND days._id=calories.day_id`)
       .then((result) => {
-        let days = result.rows
+        let sets = result.rows
 
-        let query = `SELECT * FROM calories WHERE day_id = ${days[0]._id}`
+        let days = []
 
-        for(let i = 1; i < days.length; i++) {
-          query += ` OR day_id = ${days[i]._id}`
+        let j = 0
+        for(let i = 0; i < sets.length; i++) {
+          let { date, name, calories, type } = sets[i]
+          if(days[j] === undefined) {
+            days.push({
+              date,
+              sets: []
+            })
+          } else if(days[j].date.getTime() !== date.getTime()) {
+            j++
+            continue
+          }
+          days[j].sets.push({name, calories, type})
         }
 
-
-        pg.query(query)
-          .then((result) => {
-            for(let key in days) {
-              days[key].calorieSets = result.rows.filter((row) => row.day_id === days[key]._id)
-            }
-            console.log(days[0].calorieSets)
-
-
-          })
-          .catch(e => console.log(e))
+        res.status(200).send(days)
       })
-      .catch(e => console.log(e))
-
-    res.end()
+      .catch(e => res.status(404).end())
   }
 }
 
