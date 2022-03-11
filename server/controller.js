@@ -2,7 +2,8 @@ const pg = require('./postgres/db.js')
 
 async function setCalories(calories, day_id) {
   let code = 200
-  await pg.query(`DELETE FROM calories WHERE day_id = ${day_id}`)
+  let query = `DELETE FROM calories WHERE day_id = ${day_id}`
+  await pg.query(query)
     .then(() => {
       let query = `INSERT INTO calories (day_id, name, calories, index, type) VALUES `
 
@@ -29,13 +30,13 @@ async function setCalories(calories, day_id) {
 const controller = {
   postDay: (req, res) => {
     let { id, date, calories } = req.body
-    console.log(id, date)
 
     pg.query(`SELECT _id FROM days WHERE date = '${ date }' AND user_id = ${ id }`)
-      .then((result) => {
+      .then(async function(result) {
         let _id = result.rows[0]
         if(_id) {
-          res.status(200).end()
+          let code = await setCalories(calories, _id._id)
+          res.status(code).end()
         } else {
           pg.query(`INSERT INTO days (user_id, date) VALUES (${ id }, '${ date }') RETURNING _id`)
             .then(async function(result) {
@@ -66,6 +67,7 @@ const controller = {
             })
           } else if(days[j].date.getTime() !== date.getTime()) {
             j++
+            i--
             continue
           }
           days[j].sets.push({name, calories, type})

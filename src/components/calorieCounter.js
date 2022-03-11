@@ -117,7 +117,7 @@ class CalorieCounter extends React.Component {
 
     if(this.state.showHistory) {
 
-      return <History toggle={this.handleToggleHistory} />
+      return <History type={this.props.type} toggle={this.handleToggleHistory} />
     } else {
 
       return(<div className='calorieCounter calorieDisplay' >
