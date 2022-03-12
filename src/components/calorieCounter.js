@@ -129,7 +129,7 @@ class CalorieCounter extends React.Component {
           <button
             className='historyButton'
             onClick={this.handleToggleHistory}
-          >show hostory</button>
+          >show history</button>
         </div>
         <div className='dailySubmitContainer'>
           <button

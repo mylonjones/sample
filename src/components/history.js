@@ -22,15 +22,55 @@ class History extends React.Component {
       .catch(e => console.log(e))
   }
 
+  parseDay(num) {
+    switch (num) {
+      case 0:
+        return 'Sunday'
+      case 1:
+        return 'Monday'
+      case 2:
+        return 'Tuesday'
+      case 3:
+        return 'Wednesday'
+      case 4:
+        return 'Thursday'
+      case 5:
+        return 'Friday'
+      case 6:
+        return 'Saturday'
+      default:
+        return 'Not a day'
+    }
+  }
+
+  // <div className='calorieSets history' >
+  // <div className='calorieSet' >
+  //   <div className='calorieTitle' > {this.props.type} </div>
+  //   <div className='calorieAmount' > calories </div>
+  // </div>
+  // {countedCalories.map((obj, index)=>{
+  //   return (<div
+  //     className='calorieSet'
+  //     key={index}
+  //     >
+  //     <div className='calorieTitle' >
+  //       {obj.name}
+  //     </div>
+  //     <div className='calorieAmount' >
+  //       {obj.calories}
+  //     </div>
+  //   </div>)
+  // })}</div>
+
 
 
   render() {
-    let day = this.state.days[0]
+    let days = this.state.days
 
-    let countedCalories = []
-    if(day){
-      countedCalories = day.sets.filter(calories => calories.type === this.props.type)
-    }
+    // let countedCalories = []
+    // if(day){
+    //   countedCalories = day.sets.filter(calories => calories.type === this.props.type)
+    // }
 
 
     // const total = countedCalories.reduce((prev, current) => prev + current.cal, 0);
@@ -44,23 +84,18 @@ class History extends React.Component {
         >show today</button>
       </div>
       <div className='calorieSets history' >
-        <div className='calorieSet' >
-          <div className='calorieTitle' > {this.props.type} </div>
-          <div className='calorieAmount' > calories </div>
+          {days.map((day, index)=>{
+            let date = new Date(day.date)
+            return (<div
+              className='calorieSet'
+              key={index}
+              >
+              <div className='calorieTitle' >
+                {this.parseDay(date.getDay())}
+              </div>
+            </div>)
+          })}
         </div>
-        {countedCalories.map((obj, index)=>{
-          return (<div
-            className='calorieSet'
-            key={index}
-            >
-            <div className='calorieTitle' >
-              {obj.name}
-            </div>
-            <div className='calorieAmount' >
-              {obj.calories}
-            </div>
-          </div>)
-        })}</div>
       </div>)
     }
 
