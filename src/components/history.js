@@ -1,15 +1,68 @@
 import React from 'react'
 import axios from 'axios'
 
+function Days(props) {
+  return (<div className='calorieSets history' >
+    {props.days.map((day, index)=>{
+      let date = new Date(day.date)
+      return (<div
+        className='calorieSet'
+        key={index}
+        >
+        <div className='calorieTitle' onClick={() => {props.handleClick(index)}} >
+          {props.parseDay(date.getDay())}
+        </div>
+      </div>)
+    })}
+  </div>)
+}
+
+function CaloriesHistory(props) {
+
+  let countedCalories = []
+  if(props.day){
+    countedCalories = props.day.sets.filter(calories => calories.type === props.type)
+  }
+
+
+  // const total = countedCalories.reduce((prev, current) => prev + current.cal, 0);
+
+  return (<div className='calorieSets history' >
+    <div className='calorieSet' >
+      <div className='calorieTitle' > {props.type} </div>
+      <div className='calorieAmount' > calories </div>
+    </div>
+      {countedCalories.map((obj, index)=>{
+        return (<div
+          className='calorieSet'
+          key={index}
+          >
+          <div className='calorieTitle' >
+            {obj.name}
+          </div>
+          <div className='calorieAmount' >
+            {obj.calories}
+          </div>
+        </div>)
+      })}
+  </div>)
+}
+
+
 class History extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      days: []
+      days: [],
+      component: <div/>,
+      dayIndex: 0
     }
+    this.handleDayClick = this.handleDayClick.bind(this)
   }
 
   componentDidMount () {
+
+
     axios({
       method: 'get',
       url: `/api/days/${1}`
@@ -19,7 +72,18 @@ class History extends React.Component {
           days: result.data
         })
       })
+      .then(() => {
+        this.setState({
+          component: <Days days={this.state.days} parseDay={this.parseDay} handleClick={this.handleDayClick} />
+        })
+      })
       .catch(e => console.log(e))
+  }
+
+  handleDayClick(index) {
+    this.setState({
+      component: <CaloriesHistory type={this.props.type} day={this.state.days[index]} />
+    })
   }
 
   parseDay(num) {
@@ -43,38 +107,11 @@ class History extends React.Component {
     }
   }
 
-  // <div className='calorieSets history' >
-  // <div className='calorieSet' >
-  //   <div className='calorieTitle' > {this.props.type} </div>
-  //   <div className='calorieAmount' > calories </div>
-  // </div>
-  // {countedCalories.map((obj, index)=>{
-  //   return (<div
-  //     className='calorieSet'
-  //     key={index}
-  //     >
-  //     <div className='calorieTitle' >
-  //       {obj.name}
-  //     </div>
-  //     <div className='calorieAmount' >
-  //       {obj.calories}
-  //     </div>
-  //   </div>)
-  // })}</div>
+
 
 
 
   render() {
-    let days = this.state.days
-
-    // let countedCalories = []
-    // if(day){
-    //   countedCalories = day.sets.filter(calories => calories.type === this.props.type)
-    // }
-
-
-    // const total = countedCalories.reduce((prev, current) => prev + current.cal, 0);
-
     return (<div className='calorieCounter calorieDisplay'>
       history
       <div className='historyContainer'>
@@ -83,21 +120,9 @@ class History extends React.Component {
           onClick={this.props.toggle}
         >show today</button>
       </div>
-      <div className='calorieSets history' >
-          {days.map((day, index)=>{
-            let date = new Date(day.date)
-            return (<div
-              className='calorieSet'
-              key={index}
-              >
-              <div className='calorieTitle' >
-                {this.parseDay(date.getDay())}
-              </div>
-            </div>)
-          })}
-        </div>
-      </div>)
-    }
+      {this.state.component}
+    </div>)
+  }
 
 }
 
