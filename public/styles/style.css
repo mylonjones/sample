@@ -1,5 +1,13 @@
 /** Home Page Style */
+.homeContainer {
+  width: 95%;
+  margin: auto;
+}
+
 .titleContainer {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  margin-bottom: 20px;
   background-color: inherit;
   padding: 80px 0;
 }
@@ -86,6 +94,8 @@
   -ms-grid-row: 1;
   -ms-grid-column: 1;
   grid-area: left;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 .content {
@@ -110,6 +120,9 @@
   -webkit-column-gap: 10px;
           column-gap: 10px;
   padding: 10px 0;
+  width: 95%;
+  margin: auto;
+  border-top: 1px solid black;
 }
 
 .calorieDisplay {
@@ -302,6 +315,12 @@
 
 /* End Diet Page */
 /* Exercise Page */
+.exerciseContainer {
+  width: 95%;
+  margin: auto;
+  border-top: 1px solid black;
+}
+
 .snippetDisplayContainer {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -394,12 +413,6 @@ html, body, #root, .App {
   color: gray;
 }
 
-.dashPartition {
-  width: 95%;
-  margin: auto;
-  border-top: 1px solid black;
-}
-
 .navBar {
   width: 95%;
   margin: auto;
@@ -413,6 +426,11 @@ nav {
 .logo {
   float: left;
   padding: 10px;
+}
+
+.active {
+  color: black;
+  text-decoration: underline;
 }
 
 .navLink {
@@ -437,5 +455,14 @@ nav {
   font-size: large;
   /* position: fixed;
   bottom: 0px; */
+}
+
+.copyButton {
+  visibility: hidden;
+  margin-left: 5px;
+}
+
+.footerLink {
+  color: black;
 }
 /*# sourceMappingURL=style.css.map */

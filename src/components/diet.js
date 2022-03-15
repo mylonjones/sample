@@ -82,7 +82,7 @@ class Diet extends React.Component {
   render() {
 
     return (
-      <div className='dietContainer split dashPartition' >
+      <div className='dietContainer split' >
         <CalorieCounter type='meal' />
         <div className='recipes' >
           <div className='search' >

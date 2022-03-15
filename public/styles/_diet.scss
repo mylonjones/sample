@@ -2,7 +2,11 @@
 .dietContainer {
   column-gap: 10px;
   padding: 10px 0;
+  width: 95%;
+  margin: auto;
+  border-top: 1px solid black;
 }
+
 
 .calorieDisplay {
   grid-area: left;

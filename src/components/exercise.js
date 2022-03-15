@@ -175,9 +175,10 @@ class Exercise extends React.Component {
     })
   }
 
+
   render() {
 
-    return (<div className='exerciseContainer dashPartition' >
+    return (<div className='exerciseContainer' >
       <div className='exerciseCalorieContainer split' >
         <CalorieCounter type='workout' />
         <div className='calorieCalculator' >

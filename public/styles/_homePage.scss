@@ -1,5 +1,14 @@
 /** Home Page Style */
+
+.homeContainer {
+  width: 95%;
+  margin: auto;
+}
+
 .titleContainer {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  margin-bottom: 20px;
   background-color: inherit;
   padding: 80px 0;
 
@@ -74,6 +83,7 @@
 
 .chicken {
   grid-area: left;
+  object-fit: cover;
 }
 
 .content {

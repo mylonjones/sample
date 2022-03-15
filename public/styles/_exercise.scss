@@ -1,6 +1,11 @@
 
 /* Exercise Page */
 
+.exerciseContainer {
+  width: 95%;
+  margin: auto;
+  border-top: 1px solid black;
+}
 
 .snippetDisplayContainer {
   display: flex;

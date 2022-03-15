@@ -113,7 +113,7 @@ class CalorieCounter extends React.Component {
   render() {
     let countedCalories = this.props.calories.filter(calories => calories.type === this.props.type)
 
-    const total = countedCalories.reduce((prev, current) => prev + current.cal, 0);
+    let total = countedCalories.reduce((prev, current) => prev + current.cal, 0)
 
     if(this.state.showHistory) {
 

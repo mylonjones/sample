@@ -13,12 +13,6 @@ html, body, #root, .App {
   color: gray;
 }
 
-.dashPartition {
-  width: 95%;
-  margin: auto;
-  border-top: 1px solid black;
-}
-
 .navBar {
   width: 95%;
   margin: auto;
@@ -34,6 +28,11 @@ nav {
   padding: 10px;
 }
 
+.active {
+  color: black;
+  text-decoration: underline;
+}
+
 .navLink {
   color: inherit;
   margin-top: 30px;
@@ -47,6 +46,8 @@ nav {
   }
 }
 
+
+
 .footer {
   background-color: white;
   color: black;
@@ -55,4 +56,14 @@ nav {
   font-size: large;
   /* position: fixed;
   bottom: 0px; */
+
+}
+
+.copyButton {
+  visibility: hidden;
+  margin-left: 5px;
+}
+
+.footerLink {
+  color: black;
 }

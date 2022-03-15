@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export default function Nav() {
   return(
@@ -12,11 +12,11 @@ export default function Nav() {
         width='60'
       />
       <div>
-        <Link className='navLink' to='more'>More</Link>
-        <Link className='navLink' to='consultations'>Consultations</Link>
-        <Link className='navLink' to='exercise'>Exercise</Link>
-        <Link className='navLink' to='diet'>Diet</Link>
-        <Link className='navLink' to='/'>Home</Link>
+        <NavLink  className={({ isActive }) => 'navLink' + (isActive ? ' active': '')} to='more'>More</NavLink>
+        <NavLink  className={({ isActive }) => 'navLink' + (isActive ? ' active': '')} to='consultations'>Consultations</NavLink>
+        <NavLink  className={({ isActive }) => 'navLink' + (isActive ? ' active': '')} to='exercise'>Exercise</NavLink>
+        <NavLink  className={({ isActive }) => 'navLink' + (isActive ? ' active': '')} to='diet'>Diet</NavLink>
+        <NavLink end  className={({ isActive }) => 'navLink' + (isActive ? ' active': '')} to='/'>Home</NavLink>
       </div>
     </nav>
   )
