@@ -37,33 +37,22 @@
 }
 
 .sideBySide {
-  display: grid;
-  grid-template-columns: 33.3% 33.3% 33.3%;
-  grid-template-areas: "left middle right";
-}
-
-.sentense1 {
-  grid-area: left;
-}
-
-.sentense2 {
-  grid-area: middle;
-}
-
-.sentense3 {
-  grid-area: right;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .inside {
-  margin: 10px;
+  width: 200px;
+  text-align: center;
   border: 1px solid gray;
   background-color: #def4ff;
-  color: gray;
-  padding: 20px;
-  &:hover {
-    background-color: #c8def1;
-    color: black;
-  }
+  color: black;
+  font-size: large;
+  padding: 10px;
+}
+
+.largeNumber {
+  font-size: larger;
 }
 
 .spacer2 {

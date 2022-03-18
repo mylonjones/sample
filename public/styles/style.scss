@@ -2,8 +2,7 @@
 @import './homePage';
 @import './diet';
 @import './exercise';
-
-$mainColor: #e4f3f9;
+@import './variables';
 
 html, body, #root, .App {
   height: 100%;

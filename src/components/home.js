@@ -28,15 +28,15 @@ function Home(props) {
         <div className='sideBySide'>
           <div className='sentense1 inside'>
             <p>Calories Consumed</p>
-            <p>{mealTotal}</p>
+            <p className='largeNumber' >{mealTotal}</p>
           </div>
           <div className='sentense2 inside'>
             <p>Calories Burned</p>
-            <p>{workoutTotal}</p>
+            <p className='largeNumber' >{workoutTotal}</p>
           </div>
           <div className='sentense3 inside'>
             <p>Calorie Balance</p>
-            <p>{mealTotal - workoutTotal}</p>
+            <p className='largeNumber' >{mealTotal - workoutTotal}</p>
           </div>
         </div>
       </div>

@@ -109,6 +109,21 @@ class CalorieCounter extends React.Component {
     })
   }
 
+  mouseHandlers(className) {
+    return {
+      onMouseEnter: () => {
+        let buttons = document.getElementsByClassName(className)
+        buttons[0].style.visibility = 'visible'
+        buttons[1].style.visibility = 'visible'
+      },
+      onMouseLeave: () => {
+        let buttons = document.getElementsByClassName(className)
+        buttons[0].style.visibility = 'hidden'
+        buttons[1].style.visibility = 'hidden'
+      }
+    }
+  }
+
 
   render() {
     let countedCalories = this.props.calories.filter(calories => calories.type === this.props.type)
@@ -121,17 +136,15 @@ class CalorieCounter extends React.Component {
     } else {
 
       return(<div className='calorieCounter calorieDisplay' >
-        <div className='total' >
-          {'total '}
-          {total}
-        </div>
-        <div className='historyContainer'>
+        <div className='calorieInterface' >
+          <div className='total' >
+            {'total '}
+            {total}
+          </div>
           <button
             className='historyButton'
             onClick={this.handleToggleHistory}
           >show history</button>
-        </div>
-        <div className='dailySubmitContainer'>
           <button
             className='dailySubmitButton'
             onClick={this.handleSubmitForDay}
@@ -172,6 +185,7 @@ class CalorieCounter extends React.Component {
             } else {
               return (
                 <div
+                  {...this.mouseHandlers('visibility' + index)}
                   className='calorieSet'
                   key={index}
                   index={obj.index}
@@ -181,15 +195,21 @@ class CalorieCounter extends React.Component {
                   </div>
                   <div className='calorieAmount' >
                     {obj.cal}
+                    <div className='setButtons' >
+                      <span
+                        role='img'
+                        aria-label='delete'
+                        className={`setButton ${'visibility' + index}`}
+                        onClick={()=>{this.handleDeleteOneClick(obj.index)}}
+                        > ❌ </span>
+                      <span
+                        role='img'
+                        aria-label='edit'
+                        onClick={()=>{this.handleEditClick(obj.index)}}
+                        className={`setButton ${'visibility' + index}`}
+                        > 🔧 </span>
+                    </div>
                   </div>
-                  <button
-                    className='deleteOneButton'
-                    onClick={()=>{this.handleDeleteOneClick(obj.index)}}
-                    > X </button>
-                  <button
-                    onClick={()=>{this.handleEditClick(obj.index)}}
-                    className='editCaloriesButton'
-                    > edit </button>
                 </div>
               )
             }
