@@ -145,6 +145,8 @@
   overflow-y: scroll;
   padding: 10px;
   background-color: white;
+  border-top: 2px solid gray;
+  border-bottom: 2px solid gray;
 }
 
 .history {
@@ -199,6 +201,9 @@
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .setButton {
@@ -405,13 +410,7 @@ nav {
   padding: 10px;
 }
 
-.active {
-  color: black;
-  text-decoration: underline;
-}
-
 .navLink {
-  color: inherit;
   margin-top: 30px;
   float: right;
   text-align: center;
@@ -422,6 +421,11 @@ nav {
 
 .navLink:hover {
   color: black;
+}
+
+.active {
+  color: black;
+  text-decoration: underline;
 }
 
 .footer {

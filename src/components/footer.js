@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 
 const copyToClipboard = str => {
   if (navigator && navigator.clipboard && navigator.clipboard.writeText)
@@ -9,17 +9,17 @@ const copyToClipboard = str => {
 export default function Footer() {
   let date = new Date()
   let year = date.getFullYear()
+  const email = useRef()
+  const number = useRef()
 
-  function mouseHandlers(id) {
+  function mouseHandlers(ref) {
     return {
       onMouseEnter: () => {
-        let button = document.getElementById(id)
-        button.style.visibility = 'visible'
+        ref.current.style.visibility = 'visible'
       },
       onMouseLeave: () => {
-        let button = document.getElementById(id)
-        button.style.visibility = 'hidden'
-        button.textContent = 'Copy'
+        ref.current.style.visibility = 'hidden'
+        ref.current.textContent = 'Copy'
       }
     }
   }
@@ -36,16 +36,16 @@ export default function Footer() {
   return(
     <div className='footer'>
       <ul>
-        <div {...mouseHandlers('email')} >resources@befitness.com
+        <div {...mouseHandlers(email)} >resources@befitness.com
           <button
-            id='email'
+            ref={email}
             className='copyButton'
             {...clickHandler('resources@befitness.com')}
             >Copy</button>
         </div>
-        <div {...mouseHandlers('phoneNumber')} >1-234-567-8910
+        <div {...mouseHandlers(number)} >1-234-567-8910
         <button
-            id='phoneNumber'
+            ref={number}
             className='copyButton'
             {...clickHandler('1-234-567-8910')}
             >Copy</button>
