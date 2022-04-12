@@ -1,6 +1,6 @@
 .calendarDay {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   margin: 0px;
 }
 
@@ -8,4 +8,12 @@
   display: grid;
   grid-template-columns: 30px 30px 30px 30px 30px 30px 30px;
   grid-template-areas: "day0 day1 day2 day3 day4 day5 day6";
+}
+
+.today {
+  color: red;
+}
+
+.selectedDate {
+  color: blue;
 }
