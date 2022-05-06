@@ -13,6 +13,7 @@ export default function Nav() {
       />
       <div>
         <NavLink  className={({ isActive }) => 'navLink' + (isActive ? ' active': '')} to='more'>More</NavLink>
+        <NavLink  className={({ isActive }) => 'navLink' + (isActive ? ' active': '')} to='blog'>Blog</NavLink>
         <NavLink  className={({ isActive }) => 'navLink' + (isActive ? ' active': '')} to='consultations'>Consultations</NavLink>
         <NavLink  className={({ isActive }) => 'navLink' + (isActive ? ' active': '')} to='exercise'>Exercise</NavLink>
         <NavLink  className={({ isActive }) => 'navLink' + (isActive ? ' active': '')} to='diet'>Diet</NavLink>

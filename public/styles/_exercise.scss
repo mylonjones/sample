@@ -19,31 +19,30 @@
   overflow: hidden;
   max-width: 870px;
   margin: auto;
-
+  .snippetContainer {
+    display: inline-block;
+    padding: 20px;
+    transition: transform 1s;
+    width: calc(33.3% - 40px);
+    .snippet {
+      width: 100%;
+    }
+  }
 }
 
-.snippetContainer {
-  display: inline-block;
-  padding: 20px;
-  transition: transform 1s;
-  width: calc(33.3% - 40px);
-}
 
-.snippet {
-  width: 100%;
-}
 
 .videoContainer {
   margin: auto;
   width: fit-content;
+  .video {
+    border: none;
+    width: 640px;
+    height: 360px;
+    margin: auto;
+  }
 }
 
-.video {
-  border: none;
-  width: 640px;
-  height: 360px;
-  margin: auto;
-}
 
 .exerciseCalorieContainer {
   column-gap: 10px;

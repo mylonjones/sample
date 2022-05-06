@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import sampleVidoes from '../videodata'
+import sampleVideos from '../videodata'
 import CalorieCounter from './calorieCounter'
 const key = process.env.REACT_APP_API_YOUTUBE
 
@@ -30,7 +30,7 @@ class Exercise extends React.Component {
   }
 
   componentDidMount() {
-    const snippet = sampleVidoes.map((video)=>{
+    const snippet = sampleVideos.map((video)=>{
       return {
         id: video.id.videoId,
         description: video.snippet.description,

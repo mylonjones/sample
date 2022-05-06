@@ -18,8 +18,6 @@ function monthName(num) {
   }
 }
 
-
-
 function getCalendar(today) {
 
   const date = new Date(today.getFullYear(), today.getMonth(), 1)
@@ -38,6 +36,19 @@ function getCalendar(today) {
   if(dates.length !== 0) {
     weeks.push(dates)
   }
+
+  let lastWeek = weeks[weeks.length - 1]
+  while(lastWeek.length < 7) {
+    lastWeek.push(null)
+  }
+
+  let firstWeek = weeks[0]
+  while(firstWeek.length < 7) {
+    firstWeek.unshift(null)
+  }
+
+  console.log(firstWeek)
+
   return weeks
 }
 
@@ -49,54 +60,32 @@ export default function Consultations() {
   const [weeks, setWeeks] = useState(getCalendar(today))
   const [selected, setSelected] = useState(null)
 
-
-
-
   function handleNext() {
-    setWeeks(prev => getCalendar(new Date(prev[0][0].getFullYear(), prev[0][0].getMonth() + 1, 1)))
+    setWeeks(prev => getCalendar(new Date(prev[0][6].getFullYear(), prev[0][6].getMonth() + 1, 1)))
   }
 
   function handlePrev() {
-    setWeeks(prev => getCalendar(new Date(prev[0][0].getFullYear(), prev[0][0].getMonth() - 1, 1)))
+    setWeeks(prev => getCalendar(new Date(prev[0][6].getFullYear(), prev[0][6].getMonth() - 1, 1)))
   }
-
-  function handleSelect(day) {
-    setSelected(day)
-  }
-
 
   return (
     <div>
       Consultations
       <div className='clendar' >
-        <div>
-          {monthName(weeks[0][0].getMonth()) + ' ' + weeks[0][0].getFullYear()}
-        </div>
         <button onClick={handlePrev}>Prev</button>
         <button onClick={handleNext}>Next</button>
         <div className='calendarWeeks' >
+          <div className='month'>
+            {monthName(weeks[0][6].getMonth()) + ' ' + weeks[0][6].getFullYear()}
+          </div>
           <div className='calendarWeek' >
-            <div className='calendarDay' style={{gridArea: 'day0'}} >
-              {'S'}
-            </div>
-            <div className='calendarDay' style={{gridArea: 'day1'}} >
-              {'M'}
-            </div>
-            <div className='calendarDay' style={{gridArea: 'day2'}} >
-              {'T'}
-            </div>
-            <div className='calendarDay' style={{gridArea: 'day3'}} >
-              {'W'}
-            </div>
-            <div className='calendarDay' style={{gridArea: 'day4'}} >
-              {'T'}
-            </div>
-            <div className='calendarDay' style={{gridArea: 'day5'}} >
-              {'F'}
-            </div>
-            <div className='calendarDay' style={{gridArea: 'day6'}} >
-              {'S'}
-            </div>
+            <div className='calendarDay'>{'S'}</div>
+            <div className='calendarDay'>{'M'}</div>
+            <div className='calendarDay'>{'T'}</div>
+            <div className='calendarDay'>{'W'}</div>
+            <div className='calendarDay'>{'T'}</div>
+            <div className='calendarDay'>{'F'}</div>
+            <div className='calendarDay'>{'S'}</div>
           </div>
 
           {weeks.map((week, index) => {
@@ -104,14 +93,22 @@ export default function Consultations() {
               className='calendarWeek'
               key={index} >
                 {week.map((day, index) => {
-                  let addedClass = ' '
-                  if(day.getTime() === today.getTime()) addedClass += 'today'
-                  if(selected && selected.getTime() === day.getTime()) addedClass += 'selectedDate'
+
+                  if(day === null) {
+                    return (<div
+                      className='calendarDay'
+                      key={index}
+                    ></div>)
+                  }
+
+
+                  let addedClass = ''
+                  if(day.getTime() === today.getTime()) addedClass += ' today'
+                  if(selected && selected.getTime() === day.getTime()) addedClass += ' selectedDate'
 
                   return (<div
                     className={'calendarDay' + addedClass}
-                    style={{gridArea: 'day' + day.getDay()}}
-                    onClick={()=>{handleSelect(day)}}
+                    onClick={()=>{setSelected(day)}}
                     key={index}>
                       {day.getDate()}
                   </div>)

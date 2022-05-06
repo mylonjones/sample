@@ -9,6 +9,8 @@ import More from './components/more'
 import Exercise from './components/exercise'
 import Footer from './components/footer'
 import Consultations from './components/consultations'
+import AllPosts from "./components/AllPosts.js"
+import OnePost from "./components/OnePost.js"
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
           <Route path='exercise' element={<Exercise />} />
           <Route path='more' element={<More />} />
           <Route path='consultations' element={<Consultations />} />
+          <Route path="blog" element={<AllPosts />} exact />
+          <Route path=":slug" element={<OnePost />} />
         </Routes>
         <Footer />
       </div>

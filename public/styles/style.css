@@ -319,7 +319,7 @@
   margin: auto;
 }
 
-.snippetContainer {
+.snippetDisplay .snippetContainer {
   display: inline-block;
   padding: 20px;
   -webkit-transition: -webkit-transform 1s;
@@ -329,7 +329,7 @@
   width: calc(33.3% - 40px);
 }
 
-.snippet {
+.snippetDisplay .snippetContainer .snippet {
   width: 100%;
 }
 
@@ -340,7 +340,7 @@
   width: fit-content;
 }
 
-.video {
+.videoContainer .video {
   border: none;
   width: 640px;
   height: 360px;
@@ -388,21 +388,34 @@ h3 {
 
 /* End Exercise Page */
 .calendarDay {
-  width: 30px;
-  height: 30px;
-  margin: 0px;
+  height: 35px;
+  width: 35px;
+  border: 1px solid black;
 }
 
 .calendarWeek {
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: 30px 30px 30px 30px 30px 30px 30px;
-      grid-template-columns: 30px 30px 30px 30px 30px 30px 30px;
-      grid-template-areas: "day0 day1 day2 day3 day4 day5 day6";
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.calendarWeeks {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  border: 1px solid black;
+  margin: auto;
 }
 
 .today {
   color: red;
+}
+
+.month {
+  border: 1px solid black;
 }
 
 .selectedDate {
