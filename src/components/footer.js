@@ -35,24 +35,21 @@ export default function Footer() {
 
   return(
     <div className='footer'>
-      <ul>
-        <div {...mouseHandlers(email)} >resources@befitness.com
-          <button
-            ref={email}
-            className='copyButton'
-            {...clickHandler('resources@befitness.com')}
-            >Copy</button>
-        </div>
-        <div {...mouseHandlers(number)} >1-234-567-8910
+      <div {...mouseHandlers(email)} >resources@befitness.com
         <button
-            ref={number}
-            className='copyButton'
-            {...clickHandler('1-234-567-8910')}
-            >Copy</button>
-        </div>
-        <div>{'© ' + year + ' Be Fitness Health'}</div>
-
-      </ul>
+          ref={email}
+          className='copyButton'
+          {...clickHandler('resources@befitness.com')}
+          >Copy</button>
+      </div>
+      <div {...mouseHandlers(number)} >1-234-567-8910
+      <button
+          ref={number}
+          className='copyButton'
+          {...clickHandler('1-234-567-8910')}
+          >Copy</button>
+      </div>
+      <div>{'© ' + year + ' Be Fitness Health'}</div>
     </div>
   )
 }

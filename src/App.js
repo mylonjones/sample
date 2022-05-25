@@ -17,15 +17,17 @@ function App() {
     <Provider store={store} >
       <div className="App">
         <Nav />
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='diet' element={<Diet />} />
-          <Route path='exercise' element={<Exercise />} />
-          <Route path='more' element={<More />} />
-          <Route path='consultations' element={<Consultations />} />
-          <Route path="blog" element={<AllPosts />} exact />
-          <Route path=":slug" element={<OnePost />} />
-        </Routes>
+        <div className='page'>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='diet' element={<Diet />} />
+            <Route path='exercise' element={<Exercise />} />
+            <Route path='more' element={<More />} />
+            <Route path='consultations' element={<Consultations />} />
+            <Route path="blog" element={<AllPosts />} exact />
+            <Route path=":slug" element={<OnePost />} />
+          </Routes>
+        </div>
         <Footer />
       </div>
     </Provider>

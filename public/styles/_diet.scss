@@ -111,38 +111,24 @@
 }
 
 .recipeCard {
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-  grid-template-areas: "image info";
   margin: 5px;
   border: 1px solid black;
 }
 
 .recipeImage {
-  grid-area: image;
-  width: 80px;
-}
-
-.recipeInfo {
-  grid-area: info;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto;
-  grid-template-areas:
-    "name name"
-    "calories button";
+  height: 10vw;
+  width: 15vw;
+  float: left;
+  margin-right: 5px;
 }
 
 .recipeName {
-  grid-area: name;
-}
-
-.recipeCalories {
-  grid-area: calories;
+  height: calc(10vw - 10px);
+  padding: 5px;
 }
 
 .addRecipeCaloriesButton {
-  grid-area: button;
+  width: 15vw;
 }
 
 /* End Diet Page */

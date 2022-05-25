@@ -100,15 +100,10 @@ class Diet extends React.Component {
                 src={recipe.image}
                 alt={recipe.image}
               />
-              <div className='recipeInfo' >
-                <div className='recipeName' >
-                  {recipe.name}
-                </div>
-                <div className='recipeCalories' >
-                  {recipe.calories}
-                </div>
-                <button onClick={() => {this.handleAddCalories(recipe)}} className='addRecipeCaloriesButton' >add calories</button>
+              <div className='recipeName' >
+                {recipe.name}
               </div>
+              <button onClick={() => {this.handleAddCalories(recipe)}} className='addRecipeCaloriesButton' >{`Add ${recipe.calories} calories`}</button>
             </div>)
           })}
         </div>

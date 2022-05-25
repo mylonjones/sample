@@ -13,9 +13,20 @@ html, body, #root, .App {
   color: gray;
 }
 
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.page {
+  flex-grow: 1;
+}
+
 .navBar {
   width: 95%;
   margin: auto;
+  overflow: visible;
 }
 
 nav {
@@ -52,11 +63,8 @@ nav {
 .footer {
   background-color: white;
   color: black;
-  padding: 30px;
+  padding: 20px;
   font-weight: bold;
-  font-size: large;
-  /* position: fixed;
-  bottom: 0px; */
 
 }
 
