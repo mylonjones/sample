@@ -84,7 +84,7 @@ class Diet extends React.Component {
     return (
       <div className='dietContainer split' >
         <CalorieCounter type='meal' />
-        <div className='recipes' >
+        <div className='recipeContainer' >
           <div className='search' >
             <form onSubmit={this.searchHandler} >
               <label>
@@ -93,19 +93,21 @@ class Diet extends React.Component {
               <input type='submit' value='search' />
             </form>
           </div>
-          {this.state.recipes.map((recipe, index) => {
-            return (<div className='recipeCard' key={index}>
-              <img
-                className='recipeImage'
-                src={recipe.image}
-                alt={recipe.image}
-              />
-              <div className='recipeName' >
-                {recipe.name}
-              </div>
-              <button onClick={() => {this.handleAddCalories(recipe)}} className='addRecipeCaloriesButton' >{`Add ${recipe.calories} calories`}</button>
-            </div>)
-          })}
+          <div className='recipes'>
+            {this.state.recipes.map((recipe, index) => {
+              return (<div className='recipeCard' key={index}>
+                <img
+                  className='recipeImage'
+                  src={recipe.image}
+                  alt={recipe.image}
+                />
+                <div className='recipeName' >
+                  {recipe.name}
+                </div>
+                <button onClick={() => {this.handleAddCalories(recipe)}} className='addRecipeCaloriesButton' >{`Add ${recipe.calories} calories`}</button>
+              </div>)
+            })}
+          </div>
         </div>
       </div>
     )

@@ -238,17 +238,33 @@
           box-sizing: border-box;
 }
 
-.recipes {
+.recipeContainer {
   -ms-grid-row: 1;
   -ms-grid-column: 2;
   grid-area: right;
   border: 1px solid black;
+  height: 70vh;
+}
+
+.recipeContainer .search {
+  padding: 15px;
+}
+
+.recipeContainer .recipes {
+  padding: 0 15px;
+  overflow-y: scroll;
+  height: 88%;
+}
+
+.recipeContainer .recipes .recipeCard {
+  margin-bottom: 10px;
+  background-color: white;
+  color: black;
   padding: 10px;
 }
 
-.recipeCard {
-  margin: 5px;
-  border: 1px solid black;
+.recipes::-webkit-scrollbar {
+  display: none;
 }
 
 .recipeImage {

@@ -104,16 +104,34 @@
   box-sizing: border-box;
 }
 
-.recipes {
+.recipeContainer {
   grid-area: right;
   border: 1px solid black;
-  padding: 10px;
+  height: 70vh;
+
+  .search {
+    padding: 15px;
+  }
+  .recipes {
+    padding: 0 15px;
+    overflow-y: scroll;
+    height: 88%;
+
+    .recipeCard {
+      margin-bottom: 10px;
+      background-color: white;
+      color: black;
+      padding: 10px;
+    }
+  }
 }
 
-.recipeCard {
-  margin: 5px;
-  border: 1px solid black;
+
+.recipes::-webkit-scrollbar {
+  display: none;
 }
+
+
 
 .recipeImage {
   height: 10vw;
