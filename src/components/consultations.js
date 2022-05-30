@@ -69,53 +69,63 @@ export default function Consultations() {
   }
 
   return (
-    <div>
-      Consultations
-      <div className='clendar' >
-        <button onClick={handlePrev}>Prev</button>
-        <button onClick={handleNext}>Next</button>
-        <div className='calendarWeeks' >
-          <div className='month'>
-            {monthName(weeks[0][6].getMonth()) + ' ' + weeks[0][6].getFullYear()}
+    <div className='consultations' >
+      <div className='booking'>
+        <div className='header'>Make a consultation appointment</div>
+        <div className='formContainer'>
+          <div className='form'></div>
+          <div className='calendar' >
+            <button onClick={handlePrev}>{'<--'}</button>
+
+            <div className='calendarWeeks' >
+              <div className='month'>
+                {monthName(weeks[0][6].getMonth()) + ' ' + weeks[0][6].getFullYear()}
+              </div>
+              <div className='calendarWeek' >
+                <div className='calendarDay'>{'S'}</div>
+                <div className='calendarDay'>{'M'}</div>
+                <div className='calendarDay'>{'T'}</div>
+                <div className='calendarDay'>{'W'}</div>
+                <div className='calendarDay'>{'T'}</div>
+                <div className='calendarDay'>{'F'}</div>
+                <div className='calendarDay'>{'S'}</div>
+              </div>
+
+              {weeks.map((week, index) => {
+                return (<div
+                  className='calendarWeek'
+                  key={index} >
+                    {week.map((day, index) => {
+
+                      if(day === null) {
+                        return (<div
+                          className='calendarDay'
+                          key={index}
+                        ></div>)
+                      }
+
+
+                      let addedClass = ''
+                      if(day.getTime() === today.getTime()) addedClass += ' today'
+                      if(selected && selected.getTime() === day.getTime()) addedClass += ' selectedDate'
+
+                      return (<div
+                        className={'calendarDay' + addedClass}
+                        onClick={()=>{setSelected(day)}}
+                        key={index}>
+                          {day.getDate()}
+                      </div>)
+                    })}
+                </div>)
+              })}
+
+            </div>
+            <button onClick={handleNext}>{'-->'}</button>
           </div>
-          <div className='calendarWeek' >
-            <div className='calendarDay'>{'S'}</div>
-            <div className='calendarDay'>{'M'}</div>
-            <div className='calendarDay'>{'T'}</div>
-            <div className='calendarDay'>{'W'}</div>
-            <div className='calendarDay'>{'T'}</div>
-            <div className='calendarDay'>{'F'}</div>
-            <div className='calendarDay'>{'S'}</div>
-          </div>
-
-          {weeks.map((week, index) => {
-            return (<div
-              className='calendarWeek'
-              key={index} >
-                {week.map((day, index) => {
-
-                  if(day === null) {
-                    return (<div
-                      className='calendarDay'
-                      key={index}
-                    ></div>)
-                  }
-
-
-                  let addedClass = ''
-                  if(day.getTime() === today.getTime()) addedClass += ' today'
-                  if(selected && selected.getTime() === day.getTime()) addedClass += ' selectedDate'
-
-                  return (<div
-                    className={'calendarDay' + addedClass}
-                    onClick={()=>{setSelected(day)}}
-                    key={index}>
-                      {day.getDate()}
-                  </div>)
-                })}
-            </div>)
-          })}
-
+        </div>
+        <div className='submitForm'>
+          <div className='details'>book appointment for this day and time</div>
+          <div className='submit'>book and pay</div>
         </div>
       </div>
     </div>
