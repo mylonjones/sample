@@ -47,8 +47,6 @@ function getCalendar(today) {
     firstWeek.unshift(null)
   }
 
-  console.log(firstWeek)
-
   return weeks
 }
 
@@ -59,6 +57,11 @@ export default function Consultations() {
 
   const [weeks, setWeeks] = useState(getCalendar(today))
   const [selected, setSelected] = useState(null)
+
+  const [type, setType] = useState('Diet')
+  const [name, setName] = useState()
+  const [email, setEmail] = useState()
+  const [time, setTime] = useState('12:00')
 
   function handleNext() {
     setWeeks(prev => getCalendar(new Date(prev[0][6].getFullYear(), prev[0][6].getMonth() + 1, 1)))
@@ -73,13 +76,49 @@ export default function Consultations() {
       <div className='booking'>
         <div className='header'>Make a consultation appointment</div>
         <div className='formContainer'>
-          <div className='form'></div>
+          <form className='form'>
+            <label>Consultation Type</label>
+            <select
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+            >
+              <option value='Diet' >Diet</option>
+              <option value='Training'>Training</option>
+            </select>
+            <label>Name</label>
+            <input
+              type='text'
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <label>Email</label>
+            <input
+              type='text'
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <label>Time</label>
+            <select
+              value={time}
+              onChange={(e) => setTime(e.target.value)}
+            >
+              <option value='12:00' >12:00</option>
+              <option value='1:00' >1:00</option>
+              <option value='2:00' >2:00</option>
+              <option value='3:00' >3:00</option>
+              <option value='4:00' >4:00</option>
+              <option value='5:00' >5:00</option>
+            </select>
+          </form>
           <div className='calendar' >
-            <button onClick={handlePrev}>{'<--'}</button>
 
             <div className='calendarWeeks' >
               <div className='month'>
+                <div className='button' onClick={handlePrev}>{'<--'}</div>
                 {monthName(weeks[0][6].getMonth()) + ' ' + weeks[0][6].getFullYear()}
+                <div className='button' onClick={handleNext}>{'-->'}</div>
               </div>
               <div className='calendarWeek' >
                 <div className='calendarDay'>{'S'}</div>
@@ -120,11 +159,11 @@ export default function Consultations() {
               })}
 
             </div>
-            <button onClick={handleNext}>{'-->'}</button>
+
           </div>
         </div>
         <div className='submitForm'>
-          <div className='details'>book appointment for this day and time</div>
+          <div className='details'>{`book ${name}'s ${type} appointment for ${ selected && selected.toDateString()} at ${time}`}</div>
           <div className='submit'>book and pay</div>
         </div>
       </div>

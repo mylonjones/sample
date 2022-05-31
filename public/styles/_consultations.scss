@@ -11,6 +11,7 @@
 
 .calendarWeeks {
   width: fit-content;
+  height: fit-content;
   border: 1px solid black;
 }
 
@@ -20,6 +21,14 @@
 
 .month {
   border: 1px solid black;
+  display: flex;
+  justify-content: space-evenly;
+  .button {
+    cursor: pointer;
+    &:hover {
+      font-weight: bold;
+    }
+  }
 }
 
 .selectedDate {
@@ -30,12 +39,14 @@
   width: 95%;
   margin: auto;
   border-top: 1px solid black;
+  color: black;
 }
 
 
 .calendar {
   display: flex;
   justify-content: center;
+
 }
 
 .booking {
@@ -46,10 +57,23 @@
   .header {
     border-bottom: 2px solid gray;
     height: 50px;
+    font-size: 1.5rem;
+    line-height: 50px;
+    text-align: center;
   }
   .formContainer {
     margin: 40px;
     border: 2px solid gray;
+    display: flex;
+    justify-content: space-between;
+    .form {
+      padding: 1rem;
+
+      & label {
+        display: block;
+        text-align: left;
+      }
+    }
   }
   .submitForm {
     display: flex;

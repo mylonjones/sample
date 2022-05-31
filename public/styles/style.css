@@ -394,6 +394,9 @@ h3 {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
   border: 1px solid black;
 }
 
@@ -403,6 +406,20 @@ h3 {
 
 .month {
   border: 1px solid black;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+}
+
+.month .button {
+  cursor: pointer;
+}
+
+.month .button:hover {
+  font-weight: bold;
 }
 
 .selectedDate {
@@ -413,6 +430,7 @@ h3 {
   width: 95%;
   margin: auto;
   border-top: 1px solid black;
+  color: black;
 }
 
 .calendar {
@@ -434,11 +452,29 @@ h3 {
 .booking .header {
   border-bottom: 2px solid gray;
   height: 50px;
+  font-size: 1.5rem;
+  line-height: 50px;
+  text-align: center;
 }
 
 .booking .formContainer {
   margin: 40px;
   border: 2px solid gray;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.booking .formContainer .form {
+  padding: 1rem;
+}
+
+.booking .formContainer .form label {
+  display: block;
+  text-align: left;
 }
 
 .booking .submitForm {
