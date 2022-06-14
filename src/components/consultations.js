@@ -79,6 +79,7 @@ export default function Consultations() {
           <form className='form'>
             <label>Consultation Type</label>
             <select
+              className='input'
               value={type}
               onChange={(e) => setType(e.target.value)}
             >
@@ -87,6 +88,7 @@ export default function Consultations() {
             </select>
             <label>Name</label>
             <input
+              className='input'
               type='text'
               required
               value={name}
@@ -94,6 +96,7 @@ export default function Consultations() {
             />
             <label>Email</label>
             <input
+              className='input'
               type='text'
               required
               value={email}
@@ -101,6 +104,7 @@ export default function Consultations() {
             />
             <label>Time</label>
             <select
+              className='input'
               value={time}
               onChange={(e) => setTime(e.target.value)}
             >
@@ -163,7 +167,7 @@ export default function Consultations() {
           </div>
         </div>
         <div className='submitForm'>
-          <div className='details'>{`book ${name}'s ${type} appointment for ${ selected && selected.toDateString()} at ${time}`}</div>
+          <div className='details'>{`book ${name}'s ${type} appointment for ${ (selected && selected.toDateString())  || 'unselected'} at ${time}`}</div>
           <div className='submit'>book and pay</div>
         </div>
       </div>
