@@ -15,18 +15,16 @@ export default function PdfViewer({url}){
 
   const renderPage = useCallback((pageNum, pdf=pdfRef) => {
     pdf && pdf.getPage(pageNum).then(function(page) {
-      const viewport = page.getViewport({scale: .5});
+      let viewport = page.getViewport({scale: 1});
+      const ratio = (window.innerWidth * .8)/viewport.width
+      viewport = page.getViewport({scale: ratio})
+      const renderContext = { canvasContext: ctx, viewport };
+      page.render(renderContext)
+
       canvas.height = viewport.height;
       canvas.width = viewport.width;
-      const renderContext = {
-        canvasContext: canvas.getContext('2d'),
-        viewport: viewport
-      };
-      page.render(renderContext);
-      // canvas.width = canvas.clientWidth
-      // canvas.height = canvas.clientHeight
     });
-  }, [pdfRef, canvas]);
+  }, [pdfRef, canvas, ctx]);
 
   useEffect(() => {
     setCanvas(canvasRef.current)
@@ -47,7 +45,6 @@ export default function PdfViewer({url}){
 
     document.body.addEventListener("touchstart", function (e) {
       if (e.target === canvas) {
-        console.log('should stop ')
         e.preventDefault();
       }
     }, {passive: false});
@@ -68,9 +65,8 @@ export default function PdfViewer({url}){
 
   function getMousePos(e) {
     let touch = e.touches && e.touches[0]
-
     return {
-      x: (e.clientX || touch.clientX) - canvas.offsetLeft, y: (e.clientY || touch.clientY) - canvas.offsetTop
+      x: (e.clientX || touch.clientX) - canvas.offsetLeft, y: (e.clientY || touch.clientY) - canvas.offsetTop + window.scrollY
     }
   }
 
@@ -88,7 +84,6 @@ export default function PdfViewer({url}){
     if(!drawing) return
     let position = getMousePos(e)
 
-
     ctx.lineWidth = .51
     ctx.lineCap = 'round'
 
@@ -97,6 +92,10 @@ export default function PdfViewer({url}){
     ctx.beginPath()
     ctx.moveTo(position.x, position.y)
   }
+
+
+
+
 
   const nextPage = () => pdfRef && currentPage < pdfRef.numPages && setCurrentPage(currentPage + 1);
 
