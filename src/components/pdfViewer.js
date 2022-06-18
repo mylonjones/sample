@@ -93,17 +93,17 @@ export default function PdfViewer({url}){
     ctx.moveTo(position.x, position.y)
   }
 
-
-
-
-
   const nextPage = () => pdfRef && currentPage < pdfRef.numPages && setCurrentPage(currentPage + 1);
 
   const prevPage = () => currentPage > 1 && setCurrentPage(currentPage - 1);
 
   return (
     <div className='pageContainer' >
-      <div className='arrow' onClick={prevPage} >{`<`}</div>
+      <div className='arrowContainer'>
+        <div className='arrow' onClick={prevPage} >{`<`}</div>
+        <div className='arrow' onClick={nextPage} >{`>`}</div>
+      </div>
+
       <canvas
         className='sheetMusic'
         ref={canvasRef}
@@ -114,8 +114,6 @@ export default function PdfViewer({url}){
         onTouchEnd={finishedPosition}
         onTouchMove={draw}
       ></canvas>
-      <div className='arrow' onClick={nextPage} >{`>`}</div>
     </div>
   )
-
 }
