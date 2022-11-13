@@ -9,6 +9,10 @@ export default function PdfViewer({url}){
   const [canvas, setCanvas] = useState()
   const [ctx, setCtx] =  useState()
 
+  const [canvas2, setCanvas2] = useState()
+  const [ctx2, setCtx2] =  useState()
+  const canvasRef2 = useRef();
+
   const [pdfRef, setPdfRef] = useState();
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -26,11 +30,29 @@ export default function PdfViewer({url}){
     });
   }, [pdfRef, canvas, ctx]);
 
+  const renderPage2 = useCallback((pageNum, pdf=pdfRef) => {
+    pdf && pdf.getPage(pageNum).then(function(page) {
+      let viewport = page.getViewport({scale: 1});
+      const ratio = (window.innerWidth * .8)/viewport.width
+      viewport = page.getViewport({scale: ratio})
+      const renderContext = { canvasContext: ctx2, viewport };
+      page.render(renderContext)
+
+      canvas2.height = viewport.height;
+      canvas2.width = viewport.width;
+    });
+  }, [pdfRef, canvas2, ctx2]);
+
   useEffect(() => {
     setCanvas(canvasRef.current)
     setCtx(canvasRef.current.getContext('2d'))
     renderPage(currentPage, pdfRef);
-  }, [pdfRef, currentPage, renderPage]);
+
+    setCanvas2(canvasRef2.current)
+    setCtx2(canvasRef2.current.getContext('2d'))
+    renderPage2(currentPage, pdfRef);
+
+  }, [pdfRef, currentPage, renderPage, renderPage2]);
 
   useEffect(() => {
     const loadingTask = pdfjsLib.getDocument(url);
@@ -84,11 +106,12 @@ export default function PdfViewer({url}){
     if(!drawing) return
     let position = getMousePos(e)
 
-    ctx.lineWidth = .51
+    ctx.lineWidth = 1.51
     ctx.lineCap = 'round'
 
     ctx.lineTo(position.x, position.y)
     ctx.stroke()
+
     ctx.beginPath()
     ctx.moveTo(position.x, position.y)
   }
@@ -97,13 +120,35 @@ export default function PdfViewer({url}){
 
   const prevPage = () => currentPage > 1 && setCurrentPage(currentPage - 1);
 
+  let handleErase = () => {
+    let color = ctx.globalCompositeOperation
+    if(color !== 'source-over') {
+      ctx.globalCompositeOperation = 'source-over'
+      ctx.lineWidth = 1.51
+    } else {
+      ctx.globalCompositeOperation = 'destination-out'
+      ctx.lineWidth = 10
+    }
+  }
+
   return (
     <div className='pageContainer' >
       <div className='arrowContainer'>
         <div className='arrow' onClick={prevPage} >{`<`}</div>
+        <button onClick={handleErase} >toggle</button>\
         <div className='arrow' onClick={nextPage} >{`>`}</div>
       </div>
 
+      <canvas
+        className='sheetMusic'
+        ref={canvasRef2}
+        onMouseDown={startPosition}
+        onMouseUp={finishedPosition}
+        onMouseMove={draw}
+        onTouchStart={startPosition}
+        onTouchEnd={finishedPosition}
+        onTouchMove={draw}
+      ></canvas>
       <canvas
         className='sheetMusic'
         ref={canvasRef}

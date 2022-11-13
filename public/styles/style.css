@@ -539,6 +539,11 @@ h3 {
   height: 95vh;
 }
 
+.sheetMusic {
+  position: absolute;
+  top: 160px;
+}
+
 .pageContainer {
   display: -webkit-box;
   display: -ms-flexbox;
