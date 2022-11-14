@@ -54,6 +54,7 @@ export default function PdfViewer({url}){
     setCtx2(canvasRef2.current.getContext('2d'))
     renderPage2(currentPage, pdfRef);
 
+    setLineWidth(1.51)
   }, [pdfRef, currentPage, renderPage, renderPage2]);
 
   useEffect(() => {
@@ -89,8 +90,10 @@ export default function PdfViewer({url}){
 
   function getMousePos(e) {
     let touch = e.touches && e.touches[0]
+    let sheetMusic = document.getElementsByClassName('sheetMusic')[0]
+
     return {
-      x: (e.clientX || touch.clientX) - canvas.offsetLeft, y: (e.clientY || touch.clientY) - canvas.offsetTop + window.scrollY
+      x: (e.clientX || touch.clientX) - sheetMusic.offsetLeft, y: (e.clientY || touch.clientY) - sheetMusic.offsetTop + window.scrollY
     }
   }
 
@@ -122,7 +125,7 @@ export default function PdfViewer({url}){
 
   const prevPage = () => currentPage > 1 && setCurrentPage(currentPage - 1);
 
-  let handleErase = () => {
+  const handleErase = () => {
     let color = ctx.globalCompositeOperation
     if(color !== 'source-over') {
       ctx.globalCompositeOperation = 'source-over'
@@ -141,20 +144,19 @@ export default function PdfViewer({url}){
         <div className='arrow' onClick={nextPage} >{`>`}</div>
       </div>
 
-      <canvas
-        className='sheetMusic'
-        ref={canvasRef2}
-      ></canvas>
-      <canvas
-        className='sheetMusic'
-        ref={canvasRef}
-        onMouseDown={startPosition}
-        onMouseUp={finishedPosition}
-        onMouseMove={draw}
-        onTouchStart={startPosition}
-        onTouchEnd={finishedPosition}
-        onTouchMove={draw}
-      ></canvas>
+      <div className='sheetMusic' >
+        <canvas ref={canvasRef2} />
+        <canvas
+          className='drawing'
+          ref={canvasRef}
+          onMouseDown={startPosition}
+          onMouseUp={finishedPosition}
+          onMouseMove={draw}
+          onTouchStart={startPosition}
+          onTouchEnd={finishedPosition}
+          onTouchMove={draw}
+        ></canvas>
+      </div>
     </div>
   )
 }

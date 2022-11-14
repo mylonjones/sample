@@ -540,8 +540,12 @@ h3 {
 }
 
 .sheetMusic {
+  position: relative;
+}
+
+.sheetMusic .drawing {
   position: absolute;
-  top: 160px;
+  left: 0;
 }
 
 .pageContainer {

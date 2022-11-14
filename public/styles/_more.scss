@@ -4,8 +4,11 @@
 }
 
 .sheetMusic {
-  position: absolute;
-  top: 160px;
+  position: relative;
+  .drawing {
+    position: absolute;
+    left: 0;
+  }
 }
 
 .pageContainer {
