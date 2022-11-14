@@ -16,6 +16,8 @@ export default function PdfViewer({url}){
   const [pdfRef, setPdfRef] = useState();
   const [currentPage, setCurrentPage] = useState(1);
 
+  const [lineWidth, setLineWidth] = useState(1.51)
+
 
   const renderPage = useCallback((pageNum, pdf=pdfRef) => {
     pdf && pdf.getPage(pageNum).then(function(page) {
@@ -106,7 +108,7 @@ export default function PdfViewer({url}){
     if(!drawing) return
     let position = getMousePos(e)
 
-    ctx.lineWidth = 1.51
+    ctx.lineWidth = lineWidth
     ctx.lineCap = 'round'
 
     ctx.lineTo(position.x, position.y)
@@ -124,10 +126,10 @@ export default function PdfViewer({url}){
     let color = ctx.globalCompositeOperation
     if(color !== 'source-over') {
       ctx.globalCompositeOperation = 'source-over'
-      ctx.lineWidth = 1.51
+      setLineWidth(1.51)
     } else {
       ctx.globalCompositeOperation = 'destination-out'
-      ctx.lineWidth = 10
+      setLineWidth(10)
     }
   }
 
@@ -142,12 +144,6 @@ export default function PdfViewer({url}){
       <canvas
         className='sheetMusic'
         ref={canvasRef2}
-        onMouseDown={startPosition}
-        onMouseUp={finishedPosition}
-        onMouseMove={draw}
-        onTouchStart={startPosition}
-        onTouchEnd={finishedPosition}
-        onTouchMove={draw}
       ></canvas>
       <canvas
         className='sheetMusic'
