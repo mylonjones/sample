@@ -3,11 +3,11 @@ import * as pdfjsLib from "pdfjs-dist/build/pdf";
 import * as pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
 
 export default function PdfViewer({url}){
-  const canvasRef = useRef();
   pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
   const [canvas, setCanvas] = useState()
   const [ctx, setCtx] =  useState()
+  const canvasRef = useRef();
 
   const [canvas2, setCanvas2] = useState()
   const [ctx2, setCtx2] =  useState()
@@ -16,7 +16,14 @@ export default function PdfViewer({url}){
   const [pdfRef, setPdfRef] = useState();
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [lineWidth, setLineWidth] = useState(1.51)
+  let lineWidth = 1.51
+
+
+  const img = new Image()
+  img.onload = function() {
+    ctx.globalCompositeOperation = 'source-over'
+    ctx.drawImage(img,0,0)
+  }
 
 
   const renderPage = useCallback((pageNum, pdf=pdfRef) => {
@@ -24,13 +31,18 @@ export default function PdfViewer({url}){
       let viewport = page.getViewport({scale: 1});
       const ratio = (window.innerWidth * .8)/viewport.width
       viewport = page.getViewport({scale: ratio})
-      const renderContext = { canvasContext: ctx, viewport };
-      page.render(renderContext)
+      // commented to save data when saving
+      // const renderContext = { canvasContext: ctx, viewport };
+      // page.render(renderContext)
 
       canvas.height = viewport.height;
       canvas.width = viewport.width;
+
+      const savedCanvas = localStorage.getItem('savedCanvas' + pageNum)
+      if(savedCanvas) img.src = savedCanvas
     });
-  }, [pdfRef, canvas, ctx]);
+
+  }, [pdfRef, canvas, img]);
 
   const renderPage2 = useCallback((pageNum, pdf=pdfRef) => {
     pdf && pdf.getPage(pageNum).then(function(page) {
@@ -54,7 +66,7 @@ export default function PdfViewer({url}){
     setCtx2(canvasRef2.current.getContext('2d'))
     renderPage2(currentPage, pdfRef);
 
-    setLineWidth(1.51)
+    lineWidth = 1.51
   }, [pdfRef, currentPage, renderPage, renderPage2]);
 
   useEffect(() => {
@@ -129,18 +141,30 @@ export default function PdfViewer({url}){
     let color = ctx.globalCompositeOperation
     if(color !== 'source-over') {
       ctx.globalCompositeOperation = 'source-over'
-      setLineWidth(1.51)
+      lineWidth = 1.51
     } else {
       ctx.globalCompositeOperation = 'destination-out'
-      setLineWidth(10)
+      lineWidth = 10
     }
+  }
+
+  const saveCanvas = () => {
+    localStorage.setItem('savedCanvas' + currentPage, canvas.toDataURL('image/png'))
+  }
+
+
+  const clearCanvas = () => {
+    localStorage.removeItem('savedCanvas' + currentPage)
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
 
   return (
     <div className='pageContainer' >
       <div className='arrowContainer'>
         <div className='arrow' onClick={prevPage} >{`<`}</div>
-        <button onClick={handleErase} >toggle</button>\
+        <button onClick={handleErase} >toggle</button>
+        <button onClick={saveCanvas} >save</button>
+        <button onClick={clearCanvas} >clear</button>
         <div className='arrow' onClick={nextPage} >{`>`}</div>
       </div>
 
