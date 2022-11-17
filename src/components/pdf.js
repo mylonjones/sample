@@ -13,24 +13,23 @@ export function loadPdf(url, setPdfRef) {
   });
 }
 
-export function renderPdf(pageNum, pdf, canvas, img, ctx, type) {
+export function renderPdf(pageNum, pdf, canvas, canvas2, img, ctx2) {
   pdf && pdf.getPage(pageNum).then(function(page) {
     let viewport = page.getViewport({scale: 1});
     const ratio = (window.innerWidth * .8)/viewport.width
     viewport = page.getViewport({scale: ratio})
 
-    if(type === 'sheetMusic') {
-      const renderContext = { canvasContext: ctx, viewport };
-      page.render(renderContext)
-    }
+    const renderContext = { canvasContext: ctx2, viewport };
+    page.render(renderContext)
 
-    if(type === 'canvas') {
-      const savedCanvas = localStorage.getItem('savedCanvas' + pageNum)
-      if(savedCanvas) img.src = savedCanvas
-    }
+    const savedCanvas = localStorage.getItem('savedCanvas' + pageNum)
+    if(savedCanvas) img.src = savedCanvas
 
     canvas.height = viewport.height;
     canvas.width = viewport.width;
+
+    canvas2.height = viewport.height;
+    canvas2.width = viewport.width;
 
   });
 }

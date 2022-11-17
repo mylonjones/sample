@@ -1,9 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import * as pdfjsLib from "pdfjs-dist/build/pdf";
-import * as pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
+import { loadPdf, renderPdf } from './pdf.js'
 
 export default function PdfViewer({url}){
-  pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
   const [canvas, setCanvas] = useState()
   const [ctx, setCtx] =  useState()
@@ -25,58 +23,23 @@ export default function PdfViewer({url}){
     ctx.drawImage(img,0,0)
   }
 
-
   const renderPage = useCallback((pageNum, pdf=pdfRef) => {
-    pdf && pdf.getPage(pageNum).then(function(page) {
-      let viewport = page.getViewport({scale: 1});
-      const ratio = (window.innerWidth * .8)/viewport.width
-      viewport = page.getViewport({scale: ratio})
-      // commented to save data when saving
-      // const renderContext = { canvasContext: ctx, viewport };
-      // page.render(renderContext)
-
-      canvas.height = viewport.height;
-      canvas.width = viewport.width;
-
-      const savedCanvas = localStorage.getItem('savedCanvas' + pageNum)
-      if(savedCanvas) img.src = savedCanvas
-    });
-
-  }, [pdfRef, canvas, img]);
-
-  const renderPage2 = useCallback((pageNum, pdf=pdfRef) => {
-    pdf && pdf.getPage(pageNum).then(function(page) {
-      let viewport = page.getViewport({scale: 1});
-      const ratio = (window.innerWidth * .8)/viewport.width
-      viewport = page.getViewport({scale: ratio})
-      const renderContext = { canvasContext: ctx2, viewport };
-      page.render(renderContext)
-
-      canvas2.height = viewport.height;
-      canvas2.width = viewport.width;
-    });
-  }, [pdfRef, canvas2, ctx2]);
+    renderPdf(pageNum, pdf, canvas, canvas2, img, ctx2)
+  }, [pdfRef, canvas, img, canvas2, ctx2]);
 
   useEffect(() => {
     setCanvas(canvasRef.current)
     setCtx(canvasRef.current.getContext('2d'))
-    renderPage(currentPage, pdfRef);
 
     setCanvas2(canvasRef2.current)
     setCtx2(canvasRef2.current.getContext('2d'))
-    renderPage2(currentPage, pdfRef);
+    renderPage(currentPage, pdfRef);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     lineWidth = 1.51
-  }, [pdfRef, currentPage, renderPage, renderPage2]);
+  }, [pdfRef, currentPage, renderPage]);
 
-  useEffect(() => {
-    const loadingTask = pdfjsLib.getDocument(url);
-    loadingTask.promise.then(loadedPdf => {
-      setPdfRef(loadedPdf);
-    }, function (reason) {
-      console.error(reason);
-    });
-  }, [url]);
+  useEffect(() => { loadPdf(url, setPdfRef) }, [url]);
 
   useEffect(() => {
 
